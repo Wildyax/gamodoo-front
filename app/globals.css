@@ -6,6 +6,13 @@
   --font-pixelify-sans: 'Pixelify Sans', sans-serif;
   --font-jersey-15: "Jersey 15", sans-serif;
   --font-source-code-pro: 'Source Code Pro', monospace;
+  --color-1: #320E4D;
+  --color-2: #0E0416;
+  --color-3: #7220B1;
+  --color-4: #DFC3F4;
+  --hard: #E55050;
+  --medium: #E5E050;
+  --easy: #89E550;
 }
 
 @theme inline {
@@ -18,4 +25,20 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-pixelify-sans);
+  margin: 1rem;
+}
+
+h1{
+    font-family: var(--font-jersey-15);
+    font-size: 3rem;
+}
+
+h3 {
+    font-family: var(--font-jersey-15);
+    font-size: 1.5rem;
+}
+
+p {
+    font-family: var(--font-source-code-pro);
+    font-size: 0.85rem;
 }
