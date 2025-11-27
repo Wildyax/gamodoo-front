@@ -6,8 +6,8 @@ export default function Header() {
       <nav className="flex items-center justify-between">
             <img src="logo/full_logo.png" alt="Logo" width={110} height={110} />
             <span className="flex gap-4">
-                <Button label="translate.navbar.inscription" color="--color-3"/>
-                <Button label="translate.navbar.connexion" color="--color-2"/>
+                <Button label="inscription" color="--gradient-red"/>
+                <Button label="connexion" color="--gradient-brown"/>
             </span>
       </nav>
   );

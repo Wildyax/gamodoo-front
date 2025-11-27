@@ -1,7 +1,13 @@
 {
   "homepage": {
     "title": "Le game changer* de ta quête anti-procrastination !",
-    "traduction": "* changement radical"
+    "traduction": "*changement radical",
+    "explanation_title": "Mais qu'est ce que ",
+    "explanation_1": "C'est ton ami anti-procrastination pour les tâches quotidiennes !",
+    "explanation_2": "Ca fait des mois que tu doit clôturer ton dossier ?",
+    "explanation_3": "Renseigne le dans ton profil ! Ajoute lui une description, ajoute lui un niveau de difficulté : ",
+    "explanation_4": "Une fois que tu as réalisé ta tâche, marque la comme terminée et gagne des points d'expérience !",
+    "explanation_5": "Gagne des NIVEAUX grâce à tes tâches, et bas les monstres de la procrastination !"
   },
   "navbar": {
     "connexion": "CONNEXION",

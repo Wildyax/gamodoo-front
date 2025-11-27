@@ -1,18 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #320E4D;
+  --background: #252525;
   --foreground: #FFFFFF;
   --font-pixelify-sans: 'Pixelify Sans', sans-serif;
   --font-jersey-15: "Jersey 15", sans-serif;
   --font-source-code-pro: 'Source Code Pro', monospace;
-  --color-1: #320E4D;
-  --color-2: #0E0416;
-  --color-3: #7220B1;
-  --color-4: #DFC3F4;
-  --hard: #E55050;
-  --medium: #E5E050;
-  --easy: #89E550;
+  --gradient-red: linear-gradient(#572619, #8a3620);
+  --gradient-brown: linear-gradient(180deg,rgba(102, 53, 37, 1) 52%, rgba(69, 38, 24, 1) 100%);
 }
 
 @theme inline {
