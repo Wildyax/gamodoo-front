@@ -1,37 +1,67 @@
-import Image from "next/image";
-import Header from "../components/Header";
-import Button from "../components/Button";
+'use client';
 import translate from "../locales/fr.json";
-import Footer from "../components/Footer";
+import {useRouter} from "next/navigation";
 
 export default function Home() {
-  return (
-    <div>
-        <div className="flex gap-2">
-            <div className="flex-1 place-content-center m-4">
-                <h1>{translate.homepage.title}</h1>
-                <p>{translate.homepage.traduction}</p>
+    const router = useRouter();
+
+    const goToDashboard = () => {
+        router.push('/dashboard');
+    };
+
+    return (
+        <div className="flex flex-col items-center justify-center w-full">
+            <div className="flex flex-col md:flex-row gap-4 m-4 items-center justify-center w-full">
+                <div className="w-full md:w-1/2 flex flex-col items-center m-4 text-center">
+                    <h1>{translate.homepage.title}</h1>
+                    <p className="mt-2">{translate.homepage.traduction}</p>
+                </div>
+
+                {/* Image */}
+                <div className="w-full md:w-1/2 flex justify-center items-center m-4">
+                    <img
+                        src="/characters/sword.gif"
+                        alt="Character_sword"
+                        className="w-3/4 md:w-full max-w-sm md:max-w-md h-auto"
+                    />
+                </div>
             </div>
-            <div className="flex-1 items-center m-4">
-                <img src="/characters/sword.gif" alt="Character_sword" width={300} height={300}/>
+            <div className="flex flex-col items-center m-4">
+                <button
+                    onClick={goToDashboard}
+                    className="rounded-md shadow-lg px-6 py-3 font-semibold text-white w-3/4 md:w-auto"
+                    style={{ background: `var(--gradient-red)` }}
+                >
+                    {translate.navbar.inscription}
+                </button>
+            </div>
+
+            <div
+                className="flex flex-col items-center m-4 rounded-md w-full p-4 text-center"
+                style={{ background: `var(--gradient-red)` }}
+            >
+                <h2 className="mb-2">{translate.homepage.explanation_title + " GAMODOO ?"}</h2>
+                <p className="mb-2">{translate.homepage.explanation_1}</p>
+                <img
+                    src="/screenshot/dashboard_page_to_do.png"
+                    alt="dashboard"
+                    className="w-full max-w-lg h-auto mb-2"
+                />
+                <p className="mb-2">{translate.homepage.explanation_2}</p>
+                <p className="mb-2">{translate.homepage.explanation_3}</p>
+                <img
+                    src="/screenshot/add_modale.png"
+                    alt="add_task"
+                    className="w-full max-w-lg h-auto mb-2"
+                />
+                <p className="mb-2">{translate.homepage.explanation_4}</p>
+                <img
+                    src="/screenshot/level.png"
+                    alt="level"
+                    className="w-full max-w-lg h-auto mb-2"
+                />
+                <p className="mb-2">{translate.homepage.explanation_5}</p>
             </div>
         </div>
-        <div className="flex flex-col items-center m-4">
-            <Button label="inscription" color="--gradient-red"/>
-            <div className="flex flex-col justify-center items-center m-4 rounded-md w-full" style={{background: `var(--gradient-red)`}}>
-                <span className="flex flex-row">
-                    <h1>{translate.homepage.explanation_title + " GAMODOO ?"} </h1>
-                </span>
-                {translate.homepage.explanation_1}<br />
-                <img src="/screenshot/dashboard_page_to_do.png" alt="dashboard" width={600} height={400}/><br />
-                {translate.homepage.explanation_2}<br />
-                {translate.homepage.explanation_3}<br />
-                <img src="/screenshot/add_modale.png" alt="add_task" width={600} height={400}/><br />
-                {translate.homepage.explanation_4}<br />
-                <img src="/screenshot/level.png" alt="level" width={600} height={400}/><br />
-                {translate.homepage.explanation_5}<br />
-            </div>
-        </div>
-    </div>
-  );
+    );
 }

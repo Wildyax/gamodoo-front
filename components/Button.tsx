@@ -1,8 +1,20 @@
 import translate from "../locales/fr.json";
 
-export default function Button({label, color}) {
-    return(
-        <button className="space-x-2 rounded-md shadow-lg px-4 py-2 font-semibold text-white" style={{background: `var(${color})`}}>
+export default function Button({ label, color, className = '' }) {
+    return (
+        <button
+            className={`
+        px-3 py-1.5
+        text-sm font-medium
+        rounded-md
+        shadow-md
+        text-white
+        flex items-center justify-center
+        whitespace-nowrap
+        ${className}
+      `}
+            style={{ background: `var(${color})` }}
+        >
             {translate.navbar[label]}
         </button>
     );
