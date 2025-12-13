@@ -1,0 +1,97 @@
+.container {
+  position: relative;
+  max-width: 15rem;
+  height: 8rem;
+}
+
+.card {
+  position: relative;
+  min-width: 15rem;
+  min-height: 8rem;
+  border-radius: 0px 20px 20px 20px;
+  padding: 1rem 1rem;
+  display: flex;
+  flex-direction: column;
+  background-color: #CDA47B;
+  clip-path: path('M 30,0 Q 30,30 0,30 L 0,160 Q 0,180 20,180 L 260,180 Q 280,180 280,160 L 280,20 Q 280,0 260,0 Z');
+}
+
+.unchecked {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: #b5b5b5;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.check {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-radius: 5px;
+  background: #38180D;
+  border: none;
+  cursor: pointer;
+  z-index: 2;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.dots {
+  position: absolute;
+  bottom: 1.3rem;
+  left: 0.4rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.dots span {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.dotActive {
+  background-color: #38180D;
+  opacity: 40%;
+}
+
+.dotInactive {
+  background-color: #3a1f12;
+}
+
+.text {
+  text-align: center;
+  color: #38180D;
+  margin-top: 15px;
+}
+
+.tagContainer {
+  position: absolute;
+  bottom: 0.8rem;
+  right: 0.8rem;
+  display: flex;
+  flex-direction: row-reverse;
+}
+
+.tag {
+  background-color: #252525;
+  color: #9E4326;
+  padding: 0.2rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.7rem;
+  margin-left: -1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  position: relative;
+}
+
+.tag:hover {
+  transform: translateX(-8px) scale(1.05);
+  z-index: 10;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
