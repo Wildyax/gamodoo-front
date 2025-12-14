@@ -1,13 +1,20 @@
 "use client";
 import {useState} from 'react';
 import styles from "./TaskContainer.module.css";
+import { TaskData } from '@/models/Task';
 const LEVEL_COUNT = 5;
 
-export default function TaskContainer({ taskLabel = "default", level = 1, tagList = ["tag", "tag1"]}) {
-    const [isChecked, setIsChecked] = useState(false);
+interface TaskContainerProps {
+    task: TaskData;
+    onChange?: (taskId: number) => void;
+}
+
+export default function TaskContainer({task, onChange}: TaskContainerProps) {
+    const [isChecked, setIsChecked] = useState(task.checked);
 
     const handleChecked = () => {
         setIsChecked(!isChecked);
+        onChange?.(task.id);
     }
 
     return (
@@ -23,13 +30,13 @@ export default function TaskContainer({ taskLabel = "default", level = 1, tagLis
                     {Array.from({ length: LEVEL_COUNT }, (_, i) => (
                         <span 
                             key={i}
-                            className={i > level-1 ? styles.dotActive : styles.dotInactive}
+                            className={i > task.level-1 ? styles.dotActive : styles.dotInactive}
                         ></span>
                     ))}
                 </div>
-                <div className={styles.text}>{taskLabel}</div>
+                <div className={styles.text}>{task.label}</div>
                 <div className={styles.tagContainer}>
-                    {tagList.map((tag, i) => (
+                    {task.tags.map((tag, i) => (
                         <span key={i} className={styles.tag}>{tag}</span>
                     ))}                   
                 </div>
