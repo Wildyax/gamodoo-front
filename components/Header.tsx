@@ -1,4 +1,7 @@
-import Button from "./Button";
+'use client';
+import translate from "../locales/fr.json";
+import Link from 'next/link';
+import Image from "next/image";
 
 export default function Header() {
     return (
@@ -9,8 +12,8 @@ export default function Header() {
         px-2
       "
         >
-            <img
-                src="logo/full_logo.png"
+            <Image
+                src="/logo/full_logo.png"
                 alt="Logo"
                 width={90}
                 height={90}
@@ -18,8 +21,36 @@ export default function Header() {
             />
 
             <div className="flex gap-2">
-                <Button label="inscription" color="--gradient-red" className="hidden sm:block"/>
-                <Button label="connexion" color="--gradient-brown" />
+                <Link
+                    href="/account/new"
+                    className={`
+                        px-3 py-1.5
+                        text-sm font-medium
+                        rounded-md
+                        shadow-md
+                        text-white
+                        flex items-center justify-center
+                        whitespace-nowrap`
+                    }
+                    style={{ background: `var(--gradient-red)` }}
+                >
+                    {translate.navbar.inscription}
+                </Link>
+                <Link
+                    href="/account/connexion"
+                    className={`
+                        px-3 py-1.5
+                        text-sm font-medium
+                        rounded-md
+                        shadow-md
+                        text-white
+                        flex items-center justify-center
+                        whitespace-nowrap`
+                    }
+                    style={{ background: `var(--gradient-brown)` }}
+                >
+                    {translate.navbar.connexion}
+                </Link>
             </div>
         </nav>
     );
