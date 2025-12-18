@@ -1,6 +1,7 @@
 'use client';
 import translate from "../locales/fr.json";
 import {useRouter} from "next/navigation";
+import Link from 'next/link';
 
 export default function Home() {
     const router = useRouter();
@@ -27,13 +28,13 @@ export default function Home() {
                 </div>
             </div>
             <div className="flex flex-col items-center m-4">
-                <button
-                    onClick={goToDashboard}
-                    className="rounded-md shadow-lg px-6 py-3 font-semibold text-white w-3/4 md:w-auto"
+                <Link
+                    href="/dashboard"
+                    className="rounded-md shadow-lg px-6 py-3 font-semibold text-white"
                     style={{ background: `var(--gradient-red)` }}
                 >
                     {translate.navbar.inscription}
-                </button>
+                </Link>
             </div>
 
             <div
