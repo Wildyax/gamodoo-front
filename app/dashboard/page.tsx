@@ -22,16 +22,15 @@ export default function DashBoard() {
 
     return (
         <>
-        <div className="grid grid-cols-3 gap-4">
-            {tasks.map(task => (
-                <TaskContainer 
-                    key= {task.id}
-                    task={task}
-                    onChange={handleCheckedTask}
-                />
-            ))}
-        </div>
-            
+            <div className="grid grid-cols-3 gap-4">
+                {tasks.map(task => (
+                    <TaskContainer 
+                        key= {task.id}
+                        task={task}
+                        onChange={handleCheckedTask}
+                    />
+                ))}
+            </div>
         </>
     );
 }
