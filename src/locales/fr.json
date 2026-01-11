@@ -10,7 +10,8 @@
     "explanation_5": "Gagne des NIVEAUX grâce à tes tâches, et bas les monstres de la procrastination !"
   },
   "navbar": {
-    "connexion": "CONNEXION",
+    "login": "CONNEXION",
+    "logout": "SE DECONNECTER",
     "inscription": "Démarre l'aventure !"
   }, 
   "account": {

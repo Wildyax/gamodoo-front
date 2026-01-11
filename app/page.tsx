@@ -1,5 +1,5 @@
 'use client';
-import translate from "../locales/fr.json";
+import translate from "../src/locales/fr.json";
 import {useRouter} from "next/navigation";
 import Link from 'next/link';
 

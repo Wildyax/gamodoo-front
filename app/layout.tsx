@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { Pixelify_Sans, Jersey_15, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
-import Header from "../components/Header";
-import Footer from "../components/Footer";
+import Header from "../src/components/Header";
+import Footer from "../src/components/Footer";
+import { AuthProvider } from "../src/context/AuthContext";
 
 const pixelifySans = Pixelify_Sans({
     subsets: ["latin"],
@@ -35,9 +36,11 @@ export default function RootLayout({
       <body
         className={`${pixelifySans.variable} ${jersey15.variable} ${sourceCodePro.variable} antialiased`}
       >
+        <AuthProvider>
           <Header />
             {children}
           <Footer />
+        </AuthProvider>
       </body>
     </html>
   );

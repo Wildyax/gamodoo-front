@@ -1,7 +1,7 @@
 "use client";
 import {useState} from 'react';
 import styles from "./TaskContainer.module.css";
-import { TaskData } from '@/models/Task';
+import { TaskData } from '@/src/models/Task';
 const LEVEL_COUNT = 5;
 
 interface TaskContainerProps {

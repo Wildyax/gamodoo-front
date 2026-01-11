@@ -1,33 +1,24 @@
-'use client'; 
-import AccountForm from '@/components/AccountForm/AccountForm';
-import {useState} from 'react';
-import { FormEvent } from 'react';
+"use client";
+
+import AccountForm from "@/src/components/AccountForm/AccountForm";
+import { register } from "@/src/services/register.service";
+import { useAuth } from "@/src/context/AuthContext";
+import { useRouter } from "next/navigation";
 
 export default function CreateAccount() {
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+  const router = useRouter();
+  const { login } = useAuth();
 
-    async function onSubmit(event: FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        const formData = new FormData(event.currentTarget); 
-
-        const data = Object.fromEntries(formData.entries());
-
-        const response = await fetch(`${apiUrl}/users`, {
-            method: 'POST', 
-            body: JSON.stringify(data),
-        });
-
-        if(response.ok) {
-            console.log("User create");
-        } else {
-            console.error("Error to create user");
-        }
+  const onSubmit = async (data: any) => {
+    try {
+      const result = await register(data);
+      login(result.token);
+      console.log("User created");
+      router.push("/dashboard");
+    } catch (error) {
+      console.error("Error creating user", error);
     }
+  };
 
-    return(
-        <>
-            <AccountForm onSubmit={onSubmit} withoutLogin={false}/>
-        </>
-    );
+  return <AccountForm onSubmit={onSubmit} withoutLogin={false} />;
 }
