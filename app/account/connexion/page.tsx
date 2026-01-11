@@ -12,7 +12,8 @@ export default function AccountConnexion() {
   const onSubmit = async (data: any) => {
     try {
       const result = await authService(data);
-      login(result.token);
+      //TODO: penser a récupérer le token a la place du email
+      login(result.user_email);
       router.push("/dashboard");
     } catch (error) {
       console.error(error);

@@ -12,7 +12,8 @@ export default function CreateAccount() {
   const onSubmit = async (data: any) => {
     try {
       const result = await register(data);
-      login(result.token);
+      //TODO: penser a récupérer le token a la place du login
+      login(result.user_login);
       console.log("User created");
       router.push("/dashboard");
     } catch (error) {
