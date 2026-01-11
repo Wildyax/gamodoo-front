@@ -27,7 +27,6 @@ export default function CreateAccount() {
 
     return(
         <>
-            <p>Je suis la page de cr"ation de commpte</p>
             <AccountForm onSubmit={onSubmit} withoutLogin={false}/>
         </>
     );

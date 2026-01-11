@@ -12,5 +12,19 @@
   "navbar": {
     "connexion": "CONNEXION",
     "inscription": "Démarre l'aventure !"
+  }, 
+  "account": {
+    "create": {
+      "title": "Rejoins l'aventure !", 
+      "login": "Pseudo",
+      "mail": "Email",
+      "password": "Mot de passe", 
+      "submit": "Créer le compte", 
+      "select_character": "Choisis ta classe"
+    }, 
+    "connexion": {
+      "title": "Il est temps de continuer tes aventures !", 
+      "submit": "Se connecter"
+    }
   }
 }

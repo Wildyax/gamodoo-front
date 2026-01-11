@@ -22,19 +22,18 @@ export default function AccountConnexion() {
             });
 
             if (response.ok) {
-                console.log('Utilisateur connecté');
+                console.log('User connected');
                 router.push('/dashboard');
             } else {
-                console.error('Erreur de connexion');
+                console.error('Connexion error');
             }
         } catch (error) {
-            console.error('Erreur réseau', error);
+            console.error('Server error', error);
         }
     }
 
     return (
         <>
-            <p>Je suis la page de connexion de compte</p>
             <AccountForm onSubmit={onSubmit} withoutLogin={true}/>
         </>
     );
