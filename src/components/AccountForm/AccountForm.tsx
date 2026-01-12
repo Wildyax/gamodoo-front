@@ -8,11 +8,13 @@ type AccountProps = {
     email: string;
     password: string;
     login?: string;
+    //TODO: ajouter la sélection de perso + champs token
   }) => void;
   withoutLogin: boolean;
+  selectedCharacter: string | null;
 };
 
-export default function AccountForm({ onSubmit, withoutLogin }: AccountProps) {
+export default function AccountForm({ onSubmit, withoutLogin, selectedCharacter }: AccountProps) {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 

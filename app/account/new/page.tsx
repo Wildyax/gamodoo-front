@@ -4,10 +4,14 @@ import AccountForm from "@/src/components/AccountForm/AccountForm";
 import { register } from "@/src/services/register.service";
 import { useAuth } from "@/src/context/AuthContext";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
+import CharacterChoice from "@/src/components/CharacterChoice/CharacterChoice";
 
 export default function CreateAccount() {
   const router = useRouter();
   const { login } = useAuth();
+  const [selectedCharacter, setSelectedCharacter] = useState<string | null>("sword");
+  
 
   const onSubmit = async (data: any) => {
     try {
@@ -21,5 +25,28 @@ export default function CreateAccount() {
     }
   };
 
-  return <AccountForm onSubmit={onSubmit} withoutLogin={false} />;
+  return (
+    <>
+      <div className="flex flex-col lg:flex-row w-full max-w-7xl mx-auto items-stretch gap-8 px-4">
+        <div className="w-full lg:w-1/2 flex justify-center">
+            <div className="w-full max-w-md">
+                <AccountForm
+                    onSubmit={onSubmit}
+                    withoutLogin={false}
+                    selectedCharacter={selectedCharacter}
+                />
+            </div>
+        </div>
+
+        <div className="w-full lg:w-1/2 flex justify-center">
+            <div className="w-full max-w-md">
+                <CharacterChoice
+                    selectedCharacter={selectedCharacter}
+                    onSelect={(character) => setSelectedCharacter(character)}
+                />
+            </div>
+        </div>
+      </div>
+    </>
+  );
 }

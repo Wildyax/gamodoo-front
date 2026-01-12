@@ -1,0 +1,38 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;;
+    flex-direction: column;
+    padding: 15px;
+    max-width: fit-content;
+    max-height: fit-content;
+    background-color: #873520;
+    border-radius: 10px;
+}
+
+.characterList {
+    display: flex;
+    justify-content: center;
+    align-items: column;
+}
+
+.characterItem {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+    border: 3px solid transparent;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: border-color 0.3s;
+    padding: 5px;;
+}
+
+.selected {
+    border-color: #331a12;
+}
+
+.description {
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+}

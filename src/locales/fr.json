@@ -21,7 +21,13 @@
       "mail": "Email",
       "password": "Mot de passe", 
       "submit": "Créer le compte", 
-      "select_character": "Choisis ta classe"
+      "select_character": "Choisis ta classe", 
+      "character_description": {
+        "sword": "Guerrier : Maîtrise à la perfection le combat au corps à corps. Robuste et courageux, il protège ses alliés avec vaillance. Sa volonté d'aller au bout de chaque mission est aussi solide que l'acier de son épée.",
+        "archer": "Archer : Expert en combat à distance, l'archer est agile et précis. Il excelle dans la stratégie et la furtivité, frappant ses ennemis avant qu'ils ne puissent réagir. Sa patience et son œil de lynx font de lui un atout précieux pour toute équipe.",
+        "wizard": "Magicien : Maître des arcanes, le magicien manipule les forces mystiques avec sagesse et puissance. Il utilise des sorts pour contrôler le champ de bataille, soutenant ses alliés et dévastant ses ennemis. Sa connaissance des arts magiques est inégalée, faisant de lui un stratège redoutable.",
+        "assassin": "Assassin : Spécialiste de la discrétion et de la rapidité, l'assassin excelle dans l'art de frapper sans être vu. Agile et silencieux, il élimine ses cibles avec une précision mortelle. Sa capacité à se fondre dans l'ombre en fait un maître de l'infiltration et de la surprise."
+      }
     }, 
     "connexion": {
       "title": "Il est temps de continuer tes aventures !", 
