@@ -6,9 +6,11 @@ import { useAuth } from "@/src/context/AuthContext";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import CharacterChoice from "@/src/components/CharacterChoice/CharacterChoice";
+import { useError } from "@/src/context/ErrorContext";
 
 export default function CreateAccount() {
   const router = useRouter();
+  const { showError } = useError();
   const { login } = useAuth();
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>("sword");
   
@@ -19,9 +21,10 @@ export default function CreateAccount() {
       //TODO: penser a récupérer le token a la place du login
       login(result.user_login);
       console.log("User created");
+      showError('success', null, 'Création de compte réussie');
       router.push("/dashboard");
     } catch (error) {
-      console.error("Error creating user", error);
+      showError('error', 500, "Erreur serveur");
     }
   };
 

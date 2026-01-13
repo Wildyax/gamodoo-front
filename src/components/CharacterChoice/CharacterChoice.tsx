@@ -31,7 +31,7 @@ export default function CharacterChoice({ onSelect, selectedCharacter }: Charact
                 <div className={styles.characterList}>
                     {characters.map((character) => (
                         <div
-                            key={character} 
+                            key={character}
                             className={`
                                 ${styles.characterItem}
                                 ${selectedCharacter === character ? styles.selected : ""}
