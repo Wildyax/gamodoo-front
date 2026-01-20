@@ -12,5 +12,11 @@
   "navbar": {
     "connexion": "CONNEXION",
     "inscription": "Démarre l'aventure !"
+  }, 
+  "sidebar": {
+    "menu": "Menu",
+    "administration": "Gestion des tâches",
+    "leaderboard": "Classement", 
+    "account": "Compte"
   }
 }

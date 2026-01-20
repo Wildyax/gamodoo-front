@@ -3,6 +3,7 @@ import { Pixelify_Sans, Jersey_15, Source_Code_Pro } from "next/font/google";
 import "./globals.css";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+import SidebarMenu from "@/components/SidebarMenu/SidebarMenu";
 
 const pixelifySans = Pixelify_Sans({
     subsets: ["latin"],
@@ -35,9 +36,13 @@ export default function RootLayout({
       <body
         className={`${pixelifySans.variable} ${jersey15.variable} ${sourceCodePro.variable} antialiased`}
       >
-          <Header />
+        <Header />
+        <div className="flex flex-row">
+          <SidebarMenu />
             {children}
-          <Footer />
+        </div>
+          
+        <Footer />
       </body>
     </html>
   );
