@@ -4,7 +4,7 @@ export default function Test() {
   const [data, setData] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:8000/test") 
+    fetch("http://localhost:8080/test")
       .then(res => res.json())
       .then(json => setData(json))
       .catch(err => console.error("Erreur fetch :", err));

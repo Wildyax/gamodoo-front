@@ -1,7 +1,7 @@
 'use client';
 import {useState} from 'react';
-import TaskContainer from "@/components/TaskContainer/TaskContainer";
-import { TaskData } from '@/models/Task';
+import TaskContainer from "@/src/components/TaskContainer/TaskContainer";
+import { TaskData } from '@/src/models/Task';
 
 export default function DashBoard() {
     const [tasks, setTasks] = useState<TaskData[]>([

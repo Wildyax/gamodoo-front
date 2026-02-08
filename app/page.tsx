@@ -1,5 +1,5 @@
 'use client';
-import translate from "../locales/fr.json";
+import translate from "../src/locales/fr.json";
 import {useRouter} from "next/navigation";
 import Link from 'next/link';
 
@@ -18,7 +18,6 @@ export default function Home() {
                     <p className="mt-2">{translate.homepage.traduction}</p>
                 </div>
 
-                {/* Image */}
                 <div className="w-full md:w-1/2 flex justify-center items-center m-4">
                     <img
                         src="/characters/sword.gif"
