@@ -18,5 +18,10 @@
     "administration": "Gestion des tâches",
     "leaderboard": "Classement", 
     "account": "Compte"
+  }, 
+  "navbar_dashboard": {
+    "todo": "A réaliser", 
+    "realised": "Terminé", 
+    "add": "+ Ajouter"
   }
 }

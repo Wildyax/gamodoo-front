@@ -1,7 +1,13 @@
 import Button from "./Button";
 
 export default function Header() {
+    const isConnected: boolean = true;
+
     return (
+        isConnected ? 
+        <>
+            
+        </> :
         <nav
             className="
         w-full

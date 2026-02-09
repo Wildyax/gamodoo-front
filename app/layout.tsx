@@ -31,17 +31,32 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isConnected: boolean = true;
+
   return (
     <html lang="fr">
       <body
         className={`${pixelifySans.variable} ${jersey15.variable} ${sourceCodePro.variable} antialiased`}
       >
         <Header />
-        <div className="flex flex-row">
-          <SidebarMenu />
-            {children}
-        </div>
-          
+        {
+          isConnected ?
+          <>
+            <div className="grid grid-cols-[auto_1fr] h-screen gap-0">
+              <div className="col-start-1 col-end-2">
+                <SidebarMenu/>
+              </div>
+              <div className="col-start-2 col-end-3">
+                {children}
+              </div>
+            </div>
+          </> : 
+          <>
+            <div className="flex flex-row">
+              {children}
+            </div>
+          </>
+        }
         <Footer />
       </body>
     </html>

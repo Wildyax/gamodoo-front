@@ -16,6 +16,9 @@ const MenuItem = [
 export default function SidebarMenu() {
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
+    const isConnected: boolean = true;
+    // penser à mettre à false quand on aura la logique de récupération du user 
+    // const [isConnected, setIsConnected] = useState(false);
 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
@@ -26,7 +29,8 @@ export default function SidebarMenu() {
     };
 
     return (
-        <>
+        isConnected ?
+         <>
             <button 
                 className={styles.burgerButton}
                 onClick={toggleMenu}
@@ -56,6 +60,7 @@ export default function SidebarMenu() {
                     );
                 })}
             </div>
-        </>
+        </> : 
+        null
     );
 }
