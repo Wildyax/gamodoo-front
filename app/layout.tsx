@@ -34,7 +34,7 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const isConnected: boolean = false;
+  const isConnected: boolean = true;
 
   return (
     <html lang="fr">

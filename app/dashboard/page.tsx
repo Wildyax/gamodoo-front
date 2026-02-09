@@ -5,6 +5,7 @@ import { TaskData } from '@/src/models/Task';
 import ToggleButton from '@/src/components/ToggleButton/ToggleButton';
 import "../dashboard/style.css";
 import translate from "@/src/locales/fr.json";
+import UserStatistics from '@/src/components/UserStatistics/UserStatistics';
 
 export default function DashBoard() {
     //TODO : a remplacer par une vraie récupération des tâches
@@ -53,7 +54,7 @@ export default function DashBoard() {
                     ))}
                 </div>
                 <div className="col-start-4 col-end-5 row-start-1 row-end-6">
-                    
+                    <UserStatistics/>
                 </div>
             </div>
         </>
