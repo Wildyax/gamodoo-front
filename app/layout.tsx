@@ -4,9 +4,10 @@ import "./globals.css";
 import Header from "../src/components/Header";
 import Footer from "../src/components/Footer";
 import ErrorComponent from "../src/components/ErrorComponent";
-import { AuthProvider, useAuth } from "../src/context/AuthContext";
+import {AuthProvider, useAuth} from "@/src/context/AuthContext";
 import { ErrorProvider } from "@/src/context/ErrorContext";
 import SidebarMenu from "../src/components/SidebarMenu/SidebarMenu";
+import {isAuthenticated} from "@/src/lib/auth";
 
 const pixelifySans = Pixelify_Sans({
     subsets: ["latin"],
@@ -29,12 +30,13 @@ export const metadata: Metadata = {
   icons: "/logo/full_logo.png"
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const isConnected: boolean = false;
+
+    const isLoggedIn = await isAuthenticated();
 
   return (
     <html lang="fr">
@@ -44,7 +46,7 @@ export default function RootLayout({
         <AuthProvider>
           <ErrorProvider>
             {
-              isConnected ?
+              isLoggedIn ?
               <>
                 <div className="grid grid-cols-[auto_1fr] h-screen gap-0">
                   <div className="col-start-1 col-end-2">
@@ -54,7 +56,7 @@ export default function RootLayout({
                     {children}
                   </div>
                 </div>
-              </> : 
+              </> :
               <>
                 <Header />
                   {children}
