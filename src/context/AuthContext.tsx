@@ -13,19 +13,27 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [token, setToken] = useState<string | null>(null);
 
     useEffect(() => {
-        const storedToken = localStorage.getItem("token");
-        if (storedToken) {
-            setToken(storedToken);
+        const cookieToken = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('token='))
+            ?.split('=')[1];
+
+        if (cookieToken) {
+            setToken(cookieToken);
         }
     }, []);
 
     const login = (newToken: string) => {
-        localStorage.setItem("token", newToken);
+        document.cookie = `token=${newToken}; path=/; max-age=${60 * 60 * 24 * 7}`; // 7 jours
         setToken(newToken);
     };
 
+    const isLogin = () => {
+        return token !== null;
+    };
+
     const logout = () => {
-        localStorage.removeItem("token");
+        document.cookie = 'token=; path=/; max-age=0';
         setToken(null);
     };
 
