@@ -2,12 +2,14 @@
 
 import styles from "./AccountForm.module.css";
 import translate from "../../locales/fr.json";
+import {useState} from "react";
 
 type AccountProps = {
   onSubmit: (data: {
     email: string;
     password: string;
     login?: string;
+    job?: string;
     //TODO: ajouter la sélection de perso + champs token
   }) => void;
   withoutLogin: boolean;
@@ -15,14 +17,20 @@ type AccountProps = {
 };
 
 export default function AccountForm({ onSubmit, withoutLogin, selectedCharacter }: AccountProps) {
+  const [job, setJob] = useState<string>()
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData.entries());
 
-    onSubmit(data as any);
+    onSubmit({
+      ...data,
+      job: selectedCharacter
+    } as any);
   };
+
+
 
   return (
     <div className={styles.formContainer}>

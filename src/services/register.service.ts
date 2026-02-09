@@ -7,8 +7,9 @@ type RegisterForm = {
 const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 export const register = async (data: RegisterForm) => {
-  const response = await fetch(
-    `${apiUrl}/users`,
+
+    const response = await fetch(
+    `${apiUrl}/register`,
     {
       method: "POST",
       headers: { "Content-Type": "application/json" },

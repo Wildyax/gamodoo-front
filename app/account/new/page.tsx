@@ -3,7 +3,7 @@
 import AccountForm from "@/src/components/AccountForm/AccountForm";
 import { register } from "@/src/services/register.service";
 import { useAuth } from "@/src/context/AuthContext";
-import { useRouter } from "next/navigation";
+import {redirect, useRouter} from "next/navigation";
 import { useState } from "react";
 import CharacterChoice from "@/src/components/CharacterChoice/CharacterChoice";
 import { useError } from "@/src/context/ErrorContext";
@@ -11,18 +11,35 @@ import { useError } from "@/src/context/ErrorContext";
 export default function CreateAccount() {
   const router = useRouter();
   const { showError } = useError();
-  const { login } = useAuth();
+  const { login, token } = useAuth();
   const [selectedCharacter, setSelectedCharacter] = useState<string | null>("sword");
-  
+
+  if(token) {
+      redirect('/')
+  }
 
   const onSubmit = async (data: any) => {
+      const JOBS_MAP: Record<string, number> = {
+          sword: 8,
+          archer: 7,
+          wizard: 6,
+          assassin: 5,
+      };
     try {
-      const result = await register(data);
-      //TODO: penser a récupérer le token a la place du login
-      login(result.user_login);
-      console.log("User created");
-      showError('success', null, 'Création de compte réussie');
-      router.push("/dashboard");
+        const jobId = JOBS_MAP[data.job];
+
+        const payload = {
+            ...data,
+            job: jobId,
+        };
+
+        const result = await register(payload);
+
+        login(result.user_login);
+
+        showError('success', null, 'Création de compte réussie');
+
+        router.push("/account/connexion");
     } catch (error) {
       showError('error', 500, "Erreur serveur");
     }
