@@ -15,13 +15,15 @@ export default function Header() {
         px-2
       "
         >
-            <Image
-                src="/logo/full_logo.png"
-                alt="Logo"
-                width={90}
-                height={90}
-                className="w-20 h-auto sm:w-28"
-            />
+            <Link href="/">
+                <Image
+                    src="/logo/full_logo.png"
+                    alt="Logo"
+                    width={90}
+                    height={90}
+                    className="w-20 h-auto sm:w-28 cursor-pointer"
+                />
+            </Link>
             <div className="flex gap-2">
                 {token ? (
                     <Link
