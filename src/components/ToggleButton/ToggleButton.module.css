@@ -1,0 +1,20 @@
+.toggleContainer {
+  background: var(--toggle-background);
+}
+
+.toggleButton {
+  background: transparent;
+  color: #ffffff;
+  opacity: 54%;
+}
+
+.toggleButton:hover {
+  color:#ffffff;
+}
+
+.toggleButton.active {
+  background: var(--toggle-button);
+  opacity: 100%;
+  color: #ffffff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}

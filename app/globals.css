@@ -8,6 +8,8 @@
   --font-source-code-pro: 'Source Code Pro', monospace;
   --gradient-red: linear-gradient(#572619, #8a3620);
   --gradient-brown: linear-gradient(180deg,rgba(102, 53, 37, 1) 52%, rgba(69, 38, 24, 1) 100%);
+  --toggle-background: linear-gradient(to bottom right, rgba(205, 164, 123, 0.54), rgba(103, 82, 62, 0.54));
+  --toggle-button: #CDA47B;
 }
 
 @theme inline {
