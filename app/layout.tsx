@@ -48,10 +48,13 @@ export default async function RootLayout({
             {
               isLoggedIn ?
               <>
+                  <Header />
+                  <br/>
                 <div className="grid grid-cols-[auto_1fr] h-screen gap-0">
-                  <div className="col-start-1 col-end-2">
-                    <SidebarMenu/>
-                  </div>
+
+                    <div className="col-start-1 col-end-2">
+                        <SidebarMenu/>
+                    </div>
                   <div className="col-start-2 col-end-3">
                     {children}
                   </div>
@@ -59,6 +62,7 @@ export default async function RootLayout({
               </> :
               <>
                 <Header />
+
                   {children}
               </>
             }

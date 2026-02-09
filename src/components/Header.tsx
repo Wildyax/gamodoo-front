@@ -25,24 +25,7 @@ export default function Header() {
                 />
             </Link>
             <div className="flex gap-2">
-                {token ? (
-                    <Link
-                        href="/"
-                        className={`
-                            px-3 py-1.5
-                            text-sm font-medium
-                            rounded-md
-                            shadow-md
-                            text-white
-                            flex items-center justify-center
-                            whitespace-nowrap`
-                        }
-                        style={{ background: `var(--gradient-brown)` }}
-                        onClick={logout}
-                    >
-                        {translate.navbar.logout}
-                    </Link>
-                    ) : (
+                {!token ? (
                     <>
                     <Link
                         href="/account/new"
@@ -74,7 +57,7 @@ export default function Header() {
                     >
                         {translate.navbar.login}
                     </Link>
-                    </>)
+                    </>): ''
                 }
             </div>
         </nav>
