@@ -1,0 +1,115 @@
+.sidebar {
+    min-width: 5%;
+    background: linear-gradient(#572619, #8a3620);
+    display: flex;
+    border-radius: 8px;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px 0;
+    gap: 24px;
+    height: 100vh;
+    margin-right: 17px;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+.burgerButton {
+    display: none;
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 10;
+    background-color: #8a3620;
+    border: none;
+    border-radius: 8px;
+    padding: 8px;
+    cursor: pointer;
+    color: white;
+}
+
+.burgerButton:hover {
+    background-color: #572619;
+}
+
+@media (max-width: 768px) {
+    .burgerButton {
+        display: block;
+    }
+
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 0;
+        transform: translateX(-100%);
+        z-index: 999;
+        margin-right: 0;
+        width: fit-content;
+        padding-top: 70px;
+    }
+
+    .sidebar.open {
+        transform: translateX(0);
+    }
+
+    .overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 998;
+    }
+
+    .overlay.show {
+        display: block;
+    }
+}
+
+.navItem {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.link {
+    width: 100%;
+    height: 56px;
+    margin-left: 10%;
+    border-radius: 8px 0 0 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #fed7aa;
+    text-decoration: none;
+    font-size: 10px;
+    text-align: center;
+    padding: 6px;
+}
+
+.link:hover {
+    background-color: #8a3620;
+    color: white;
+}
+
+.link.active {
+    background-color: #252525;
+    color: #8a3620;
+}
+
+.activeIndicator {
+    position: absolute;
+    width: 56px;
+    height: 56px;
+    background-color: #252525;
+    border-radius: 8px;
+    top: 24px;
+    left: 12px;
+}
+
+.icon {
+    font-size: 24px;
+    margin-bottom: 4px;
+}

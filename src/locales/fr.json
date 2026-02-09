@@ -33,5 +33,16 @@
       "title": "Il est temps de continuer tes aventures !", 
       "submit": "Se connecter"
     }
+  },
+  "sidebar": {
+    "menu": "Menu",
+    "administration": "Gestion des tâches",
+    "leaderboard": "Classement", 
+    "account": "Compte"
+  },
+  "navbar_dashboard": {
+    "todo": "A réaliser", 
+    "realised": "Terminé", 
+    "add": "+ Ajouter"
   }
 }

@@ -4,8 +4,9 @@ import "./globals.css";
 import Header from "../src/components/Header";
 import Footer from "../src/components/Footer";
 import ErrorComponent from "../src/components/ErrorComponent";
-import { AuthProvider } from "../src/context/AuthContext";
+import { AuthProvider, useAuth } from "../src/context/AuthContext";
 import { ErrorProvider } from "@/src/context/ErrorContext";
+import SidebarMenu from "../src/components/SidebarMenu/SidebarMenu";
 
 const pixelifySans = Pixelify_Sans({
     subsets: ["latin"],
@@ -33,6 +34,8 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isConnected: boolean = false;
+
   return (
     <html lang="fr">
       <body
@@ -40,8 +43,23 @@ export default function RootLayout({
       >
         <AuthProvider>
           <ErrorProvider>
-            <Header />
-              {children}
+            {
+              isConnected ?
+              <>
+                <div className="grid grid-cols-[auto_1fr] h-screen gap-0">
+                  <div className="col-start-1 col-end-2">
+                    <SidebarMenu/>
+                  </div>
+                  <div className="col-start-2 col-end-3">
+                    {children}
+                  </div>
+                </div>
+              </> : 
+              <>
+                <Header />
+                  {children}
+              </>
+            }
             <ErrorComponent />
             <Footer />
           </ErrorProvider>
