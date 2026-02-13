@@ -20,10 +20,10 @@ export default function CreateAccount() {
 
   const onSubmit = async (data: any) => {
       const JOBS_MAP: Record<string, number> = {
-          sword: 8,
-          archer: 7,
-          wizard: 6,
-          assassin: 5,
+          sword: 4,
+          archer: 3,
+          wizard: 2,
+          assassin: 1,
       };
     try {
         const jobId = JOBS_MAP[data.job];
