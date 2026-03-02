@@ -14,7 +14,7 @@ export default function AccountConnexion() {
 
   useEffect(() => {
     if(token) {
-      router.push('/')
+      router.push('/dashboard')
     }
   }, [token, router]);
 
