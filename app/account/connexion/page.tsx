@@ -1,31 +1,42 @@
 "use client";
 
 import AccountForm from "@/src/components/AccountForm/AccountForm";
-import {redirect, useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
 import { login as authService } from "@/src/services/auth.service";
 import { useAuth } from "@/src/context/AuthContext";
 import { useError } from "@/src/context/ErrorContext";
-import {useEffect} from "react";
+import { useEffect } from "react";
 
 export default function AccountConnexion() {
   const router = useRouter();
   const { showError } = useError();
   const { login, token } = useAuth();
+  const { user, setUser } = useAuth();
 
   useEffect(() => {
-    if(token) {
-      router.push('/')
+    if (token && user) {
+      router.push('/');
     }
   }, [token, router]);
 
   const onSubmit = async (data: any) => {
     try {
       const result = await authService(data);
-      console.log(result)
+
+      const userResponse = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/user`,
+        {
+          headers: { 'Authorization': `Bearer ${result.token}` }
+        }
+      );
+      const userData = await userResponse.json();
+
+      localStorage.setItem('token', result.token);
+      localStorage.setItem('user', JSON.stringify(userData));
+      setUser(userData);
 
       login(result.token);
       showError('success', null, 'Connexion réussie');
-
       router.push("/dashboard");
     } catch (error) {
       showError('error', 500, "Mauvais identifiants ou erreur serveur");

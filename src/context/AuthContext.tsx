@@ -1,9 +1,12 @@
 "use client";
 import { createContext, useContext, useEffect, useState } from "react";
+import { User } from "../models/User";
 
 type AuthContextType = {
     token: string | null;
+    user: User | null;
     login: (token: string) => void;
+    setUser: (user: any) => void;
     logout: () => void;
 };
 
@@ -11,6 +14,9 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [token, setToken] = useState<string | null>(null);
+    const [user, setUser] = useState<null>(null);
+    const [loading, setLoading] = useState(true);
+
 
     useEffect(() => {
         const cookieToken = document.cookie
@@ -21,6 +27,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         if (cookieToken) {
             setToken(cookieToken);
         }
+
+        const saved = localStorage.getItem('user');
+        if (saved) setUser(JSON.parse(saved));
+        setLoading(false);
     }, []);
 
     const login = (newToken: string) => {
@@ -38,7 +48,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ token, login, logout }}>
+        <AuthContext.Provider value={{ token, login, logout, setUser, user }}>
             {children}
         </AuthContext.Provider>
     );
