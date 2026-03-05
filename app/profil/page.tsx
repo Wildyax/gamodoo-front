@@ -9,8 +9,8 @@ export default function ProfilPage() {
     return (
         <>
             <Link
-                        href="/"
-                        className={`
+                href="/"
+                className={`
                             px-3 py-1.5
                             text-sm font-medium
                             rounded-md
@@ -18,12 +18,12 @@ export default function ProfilPage() {
                             text-white
                             flex items-center justify-center
                             whitespace-nowrap`
-                        }
-                        style={{ background: `var(--gradient-brown)` }}
-                        onClick={logout}
-                    >
-                        {translate.navbar.logout}
-                    </Link>
+                }
+                style={{ background: `var(--gradient-brown)` }}
+                onClick={logout}
+            >
+                {translate.navbar.logout}
+            </Link>
         </>
     );
 }

@@ -6,13 +6,21 @@ import ToggleButton from '@/src/components/ToggleButton/ToggleButton';
 import "../dashboard/style.css";
 import translate from "@/src/locales/fr.json";
 import UserStatistics from '@/src/components/UserStatistics/UserStatistics';
+import {useAuth} from "@/src/context/AuthContext";
+import {redirect} from "next/navigation";
+import {router} from "next/client";
 
 export default function DashBoard() {
+    // Si pas connecté redirigé vers la page de connexion
+    const { token } = useAuth();
+    if(!token) redirect('/account/connexion');
+
     //TODO : a remplacer par une vraie récupération des tâches
     const [tasks, setTasks] = useState<TaskData[]>([
         { id: 1, label: "Révision", level: 2, description: "...", tags: ["cours"], checked: false, createdAt: new Date()},
         { id: 2, label: "Gaming", level: 5, description: "...", tags: ["jeu"], checked: false, createdAt: new Date() }
     ]);
+
 
     //détection de changement d'état d'une tâche
     const handleCheckedTask = (taskId: number) => {

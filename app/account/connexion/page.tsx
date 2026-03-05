@@ -14,8 +14,8 @@ export default function AccountConnexion() {
   const { user, setUser } = useAuth();
 
   useEffect(() => {
-    if (token && user) {
-      router.push('/');
+    if(token && user) {
+      router.push('/dashboard')
     }
   }, [token, router]);
 
