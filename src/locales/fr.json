@@ -44,5 +44,17 @@
     "todo": "A réaliser", 
     "realised": "Terminé", 
     "add": "+ Ajouter"
+  }, 
+  "user_info_card": {
+    "hello": "Bonjour ",
+    "level": "Niveau",
+    "xp": "XP", 
+    "boss": "Boss ",
+    "to_do": "A faire", 
+    "realised": "Terminé"
+  }, 
+  "user_level_up": {
+    "level_up": "Niveau supérieur !",
+    "task": " tâches"
   }
 }
