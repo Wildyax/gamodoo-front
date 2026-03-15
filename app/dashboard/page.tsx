@@ -35,36 +35,38 @@ export default function DashBoard() {
     }
 
     return (
-        <>
-            <div className="grid grid-cols-4 grid-rows-5 gap-0 h-full">
-                <div className="col-start-1 col-end-4 row-start-1 row-end-2">
-                    <div className="flex flex-row justify-between">
-                        <ToggleButton></ToggleButton>
-                        <img
-                            src="logo/full_logo.png"
-                            alt="Logo"
-                            width={10}
-                            height={5}
-                            className="w-20 sm:w-28"
-                        />
-                        <button className="button items-center justify-center inline-flex rounded-full p-1 shadow-lg px-6 py-2 text-sm font-medium" >
-                            { translate.navbar_dashboard.add }
-                        </button>
-                    </div>
+        <div className="flex flex-col lg:flex-row h-full gap-0">
+ 
+            <div className="flex flex-col flex-1 min-w-0">
+                <div className="flex flex-row justify-between items-center p-2">
+                    <ToggleButton />
+                    <img
+                        src="logo/full_logo.png"
+                        alt="Logo"
+                        width={10}
+                        height={5}
+                        className="w-20 sm:w-28"
+                    />
+                    <button className="button items-center justify-center inline-flex rounded-full p-1 shadow-lg px-6 py-2 text-sm font-medium">
+                        {translate.navbar_dashboard.add}
+                    </button>
                 </div>
-                <div className="col-start-1 col-end-4 row-start-2 row-end-6">
+ 
+                <div className="flex-1">
                     {tasks.map(task => (
-                        <TaskContainer 
+                        <TaskContainer
                             key={task.id}
                             task={task}
                             onChange={handleCheckedTask}
                         />
                     ))}
                 </div>
-                <div className="col-start-4 col-end-5 row-start-1 row-end-6">
-                    <UserStatistics/>
-                </div>
             </div>
-        </>
+            
+            <div className="w-full lg:w-auto lg:flex-shrink-0">
+                <UserStatistics />
+            </div>
+ 
+        </div>
     );
 }
