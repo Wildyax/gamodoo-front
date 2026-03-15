@@ -38,19 +38,34 @@ export default function DashBoard() {
         <div className="flex flex-col lg:flex-row h-full gap-0">
  
             <div className="flex flex-col flex-1 min-w-0">
-                <div className="flex flex-row justify-between items-center p-2">
-                    <ToggleButton />
-                    <img
-                        src="logo/full_logo.png"
-                        alt="Logo"
-                        width={10}
-                        height={5}
-                        className="w-20 sm:w-28"
-                    />
-                    <button className="button items-center justify-center inline-flex rounded-full p-1 shadow-lg px-6 py-2 text-sm font-medium">
-                        {translate.navbar_dashboard.add}
-                    </button>
+                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 gap-2">
+    
+                    <div className="flex justify-center sm:hidden">
+                        <img
+                            src="logo/full_logo.png"
+                            alt="Logo"
+                            className="w-24 h-auto"
+                        />
+                    </div>
+            
+                    <div className="flex flex-row justify-between items-center gap-2 sm:contents">
+                        <ToggleButton />
+                
+                        <img
+                            src="logo/full_logo.png"
+                            alt="Logo"
+                            className="hidden sm:block w-20 lg:w-28 h-auto"
+                        />
+                
+                        <button className="button items-center justify-center inline-flex rounded-full shadow-lg
+                            px-4 py-2 text-sm
+                            lg:px-6 lg:py-2
+                            font-medium whitespace-nowrap">
+                            {translate.navbar_dashboard.add}
+                        </button>
+                    </div>
                 </div>
+    
  
                 <div className="flex-1">
                     {tasks.map(task => (
