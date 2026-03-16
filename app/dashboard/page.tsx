@@ -67,12 +67,12 @@ export default function DashBoard() {
                 </div>
     
  
-                <div className="flex-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-3 flex-1">
                     {tasks.map(task => (
                         <TaskContainer
-                            key={task.id}
-                            task={task}
-                            onChange={handleCheckedTask}
+                        key={task.id}
+                        task={task}
+                        onChange={handleCheckedTask}
                         />
                     ))}
                 </div>
