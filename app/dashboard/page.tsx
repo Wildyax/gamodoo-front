@@ -65,30 +65,16 @@ export default function DashBoard() {
                         <button className="button items-center justify-center inline-flex rounded-full shadow-lg
                             px-4 py-2 text-sm
                             lg:px-6 lg:py-2
-                            font-medium whitespace-nowrap">
+                            font-medium whitespace-nowrap"
+                            onClick={() => setIsModalOpen(true)}>
                             {translate.navbar_dashboard.add}
                         </button>
                     </div>
+                </div>
     
-    
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-3 flex-1">
-                        {tasks.map(task => (
-                            <TaskContainer
-                            key={task.id}
-                            task={task}
-                            onChange={handleCheckedTask}
-                            />
-                        ))}
-                            <button 
-                                className="button items-center justify-center inline-flex rounded-full p-1 shadow-lg px-6 py-2 text-sm font-medium" 
-                                onClick={() => setIsModalOpen(true)}
-                            >
-                                { translate.navbar_dashboard.add }
-                            </button>
-                        </div>
-                    </div>
-                    <div className="col-start-1 col-end-4 row-start-2 row-end-6">
-                        {tasks.length > 0 ? (
+ 
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-3 flex-1">
+                    {tasks.length > 0 ? (
                             tasks.map(task => (
                                 <TaskContainer 
                                     key={task.id}
@@ -99,13 +85,14 @@ export default function DashBoard() {
                         ) : (
                             <p>{translate.task_card.no_task}</p>
                         )}
-                    </div>
-                </div>
-                
-                <div className="w-full lg:w-auto lg:flex-shrink lg:max-w-xs xl:max-w-sm">
-                    <UserStatistics />
                 </div>
             </div>
+            
+            <div className="w-full lg:w-auto lg:flex-shrink lg:max-w-xs xl:max-w-sm">
+                <UserStatistics />
+            </div>
+ 
+        </div>
             {isModalOpen && <TaskModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
         </>
     );
