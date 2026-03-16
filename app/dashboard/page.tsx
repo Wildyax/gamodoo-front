@@ -78,7 +78,7 @@ export default function DashBoard() {
                 </div>
             </div>
             
-            <div className="w-full lg:w-auto lg:flex-shrink-0">
+            <div className="w-full lg:w-auto lg:flex-shrink lg:max-w-xs xl:max-w-sm">
                 <UserStatistics />
             </div>
  

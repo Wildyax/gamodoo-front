@@ -24,7 +24,7 @@
   left: 0;
   width: 30px;
   height: 30px;
-  background-color: var(--background, #f5f0eb); /* adapte à la couleur de fond de ta page */
+  background-color: var(--background, #f5f0eb);
   border-radius: 0 0 100% 0;
 }
 
