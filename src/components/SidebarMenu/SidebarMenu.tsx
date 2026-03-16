@@ -19,18 +19,19 @@ export default function SidebarMenu() {
     const isConnected: boolean = true;
     // penser à mettre à false quand on aura la logique de récupération du user 
     // const [isConnected, setIsConnected] = useState(false);
-
+ 
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
-
+    
     const closeMenu = () => {
         setIsOpen(false);
     };
 
+    if (!isConnected) return null;
+ 
     return (
-        isConnected ?
-         <>
+        <>
             <button 
                 className={styles.burgerButton}
                 onClick={toggleMenu}
@@ -38,12 +39,12 @@ export default function SidebarMenu() {
             >
                 {isOpen ? <MdClose size={24} /> : <MdMenu size={24} />}
             </button>
-
+ 
             <div 
                 className={`${styles.overlay} ${isOpen ? styles.show : ''}`}
                 onClick={closeMenu}
             />
-
+ 
             <div className={`${styles.sidebar} ${isOpen ? styles.open : ''}`}>
                 {MenuItem.map(item => {
                     const IconComponent = item.icon;
@@ -60,7 +61,6 @@ export default function SidebarMenu() {
                     );
                 })}
             </div>
-        </> : 
-        null
+        </>
     );
 }

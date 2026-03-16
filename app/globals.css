@@ -18,11 +18,23 @@
   --font-sans: var(--font-source-code-pro);
 }
 
+@media (max-width: 768px) {
+  .sidebar-col {
+    width: 0;
+    overflow: visible;
+  }
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-pixelify-sans);
-  margin: 1rem;
+  margin: 0;
+  padding: 0;
+}
+
+.main-content {
+  padding: 1rem;
 }
 
 h1{

@@ -6,25 +6,23 @@ export default function ToggleButton() {
     const [isComplete, setComplete] = useState(false);
 
     return (
-        <>
         <div className={`${styles.toggleContainer} inline-flex rounded-full p-1 shadow-lg`}>
             <button
                 onClick={() => setComplete(true)}
-                className={`${styles.toggleButton} px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border-none cursor-pointer ${
-                isComplete ? `${styles.active}` : ''
+                className={`${styles.toggleButton} px-3 py-1 text-xs sm:px-6 sm:py-2 sm:text-sm rounded-full font-medium transition-all duration-300 border-none cursor-pointer ${
+                    isComplete ? styles.active : ''
                 }`}
             >
                 {translate.navbar_dashboard.todo}
             </button>
             <button
                 onClick={() => setComplete(false)}
-                className={`${styles.toggleButton} px-6 py-2 rounded-full text-sm font-medium transition-all duration-300 border-none cursor-pointer ${
-                !isComplete ? `${styles.active}` : ''
+                className={`${styles.toggleButton} px-3 py-1 text-xs sm:px-6 sm:py-2 sm:text-sm rounded-full font-medium transition-all duration-300 border-none cursor-pointer ${
+                    !isComplete ? styles.active : ''
                 }`}
             >
                 {translate.navbar_dashboard.realised}
             </button>
         </div>
-        </>
     );
 }
