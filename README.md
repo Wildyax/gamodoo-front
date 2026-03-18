@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🎮 Gamodoo — Frontend
 
-## Getting Started
+> Le frontend de l'application **Gamodoo**, ton ami anti-procrastination !
 
-First, run the development server:
+---
+
+## 🚀 Stack technique
+
+| Technologie | Rôle |
+|---|---|
+| [Next.js](https://nextjs.org) | Framework React (App Router) |
+| TypeScript | Typage statique |
+| CSS | Styles |
+| Docker | Conteneurisation |
+
+---
+
+## 📦 Installation
+
+### Prérequis
+
+- Node.js `>= 18`
+- npm / yarn / pnpm
+
+### Cloner le projet
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+git clone https://github.com/Wildyax/gamodoo-front.git
+cd gamodoo-front
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Installer les dépendances
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🧑‍💻 Démarrage en développement
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+npx next dev
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Ouvre [http://localhost:3000](http://localhost:3000) dans ton navigateur.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🏗️ Structure du projet
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```
+gamodoo-front/
+├── app/          # App Router Next.js (layouts, pages)
+├── pages/        # Pages supplémentaires
+├── src/          # Composants, hooks, utils
+├── public/       # Assets statiques
+├── Dockerfile    # Config Docker
+└── next.config.ts
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 🛠️ Scripts disponibles
+
+| Commande | Description |
+|---|---|
+| `npm run dev` | Lance le serveur de développement |
+| `npm run build` | Build de production |
+| `npm run start` | Démarre le serveur de production |
+| `npm run lint` | Vérifie le code avec ESLint |
+
+---
+
+## 🔗 Liens utiles
+
+- [Documentation Next.js](https://nextjs.org/docs)
+- [Repo backend Gamodoo]([https://github.com/Wildyax](https://github.com/Wildyax/gamodoo-back)
