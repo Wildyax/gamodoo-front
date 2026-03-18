@@ -10,6 +10,17 @@
   --gradient-brown: linear-gradient(180deg,rgba(102, 53, 37, 1) 52%, rgba(69, 38, 24, 1) 100%);
   --toggle-background: linear-gradient(to bottom right, rgba(205, 164, 123, 0.54), rgba(103, 82, 62, 0.54));
   --toggle-button: #CDA47B;
+  
+  /* TaskModal */
+  --modal-background: #CDA47B;
+  --modal-close-button: #7A250F;
+  --modal-close-cross: #FFFFFF;
+  --modal-text-color: #252525;
+  --modal-description-color: rgba(37, 37, 37, 0.6);
+  --modal-select-level: #38180D;
+  --modal-unselected-level: rgba(56, 24, 13, 0.4);
+  --modal-submit-button: linear-gradient(90deg, #663525 0%, #642B19 100%);
+  --modal-tag-background: rgba(37, 37, 37, 0.6);
 }
 
 @theme inline {

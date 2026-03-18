@@ -56,5 +56,16 @@
   "user_level_up": {
     "level_up": "Niveau supérieur !",
     "task": " tâches"
+  }, 
+  "modal": {
+    "title": "Saisie d’un libellé", 
+    "task_level": "Choix du niveau de la tâche", 
+    "task_title_description": "Description",
+    "task_description": "Décrivez votre tâche dans les moindres détails ...", 
+    "tag_title": "Tags", 
+    "submit": "Ajouter la tâche"
+  }, 
+  "task_card": {
+    "no_task": "Pas de tâches... Créé en une pour commencer l'aventure !"
   }
 }
