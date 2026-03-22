@@ -6,21 +6,34 @@ import ToggleButton from '@/src/components/ToggleButton/ToggleButton';
 import "../dashboard/style.css";
 import translate from "@/src/locales/fr.json";
 import UserStatistics from '@/src/components/UserStatistics/UserStatistics';
+import TaskModal from '@/src/components/TaskModal/TaskModal';
 import {useAuth} from "@/src/context/AuthContext";
 import {redirect} from "next/navigation";
 import {router} from "next/client";
+import { useEffect } from 'react';
+import { getTasks } from "@/src/services/task.service";
 
 export default function DashBoard() {
     // Si pas connecté redirigé vers la page de connexion
     const { token } = useAuth();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [tasks, setTasks] = useState<TaskData[]>([]);
+    
     if(!token) redirect('/account/connexion');
 
     //TODO : a remplacer par une vraie récupération des tâches
-    const [tasks, setTasks] = useState<TaskData[]>([
-        { id: 1, label: "Révision", level: 2, description: "...", tags: ["cours"], checked: false, createdAt: new Date()},
-        { id: 2, label: "Gaming", level: 5, description: "...", tags: ["jeu"], checked: false, createdAt: new Date() }
-    ]);
+    // const [tasks, setTasks] = useState<TaskData[]>([
+    //     { id: 1, label: "Révision", level: 2, description: "...", tags: ["cours"], checked: false},
+    //     { id: 2, label: "Gaming", level: 5, description: "...", tags: ["jeu"], checked: false}
+    // ]);
 
+    useEffect(() => {
+        if (!token) return;
+        
+        getTasks(token)
+            .then(res => setTasks(res.data))
+            .catch(err => console.error(err));
+    }, [token]);
 
     //détection de changement d'état d'une tâche
     const handleCheckedTask = (taskId: number) => {
@@ -34,7 +47,19 @@ export default function DashBoard() {
         )
     }
 
+    const fetchTasks = () => {
+    if (!token) return;
+        getTasks(token)
+            .then(res => setTasks(res.data))
+            .catch(err => console.error(err));
+    };
+
+    useEffect(() => {
+        fetchTasks();
+    }, [token]);
+
     return (
+        <>
         <div className="flex flex-col lg:flex-row h-full gap-0">
  
             <div className="flex flex-col flex-1 min-w-0">
@@ -60,7 +85,8 @@ export default function DashBoard() {
                         <button className="button items-center justify-center inline-flex rounded-full shadow-lg
                             px-4 py-2 text-sm
                             lg:px-6 lg:py-2
-                            font-medium whitespace-nowrap">
+                            font-medium whitespace-nowrap"
+                            onClick={() => setIsModalOpen(true)}>
                             {translate.navbar_dashboard.add}
                         </button>
                     </div>
@@ -68,13 +94,17 @@ export default function DashBoard() {
     
  
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-3 flex-1">
-                    {tasks.map(task => (
-                        <TaskContainer
-                        key={task.id}
-                        task={task}
-                        onChange={handleCheckedTask}
-                        />
-                    ))}
+                    {tasks.length > 0 ? (
+                            tasks.map((task, index) => (
+                                <TaskContainer 
+                                    key={task.id ?? index}
+                                    task={task}
+                                    onChange={handleCheckedTask}
+                                />
+                            ))
+                        ) : (
+                            <p>{translate.task_card.no_task}</p>
+                        )}
                 </div>
             </div>
             
@@ -83,5 +113,16 @@ export default function DashBoard() {
             </div>
  
         </div>
+            {isModalOpen && (
+                <TaskModal 
+                    isOpen={isModalOpen} 
+                    onClose={() => setIsModalOpen(false)}
+                    onSubmit={() => {
+                        fetchTasks();
+                        setIsModalOpen(false);
+                    }}
+                />
+            )}
+        </>
     );
 }

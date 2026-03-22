@@ -14,11 +14,10 @@ export default function TaskContainer({task, onChange}: TaskContainerProps) {
 
     const handleChecked = () => {
         setIsChecked(!isChecked);
-        onChange?.(task.id);
+        onChange?.(task.id ?? 0);
     }
 
     return (
-        <>
         <div className={styles.container}>
             <button 
                 className={isChecked ? styles.check : styles.unchecked}
@@ -36,12 +35,11 @@ export default function TaskContainer({task, onChange}: TaskContainerProps) {
                 </div>
                 <div className={styles.text}>{task.label}</div>
                 <div className={styles.tagContainer}>
-                    {task.tags.map((tag, i) => (
+                    {(task.tags ?? []).map((tag, i) => (
                         <span key={i} className={styles.tag}>{tag}</span>
                     ))}                   
                 </div>
             </div>
         </div>
-        </>
     );
 }
