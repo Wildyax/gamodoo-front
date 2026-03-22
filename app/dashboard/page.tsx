@@ -10,6 +10,8 @@ import TaskModal from '@/src/components/TaskModal/TaskModal';
 import {useAuth} from "@/src/context/AuthContext";
 import {redirect} from "next/navigation";
 import {router} from "next/client";
+import { useEffect } from 'react';
+import { getTasks } from "@/src/services/task.service";
 
 export default function DashBoard() {
     // Si pas connecté redirigé vers la page de connexion
@@ -25,6 +27,13 @@ export default function DashBoard() {
     //     { id: 2, label: "Gaming", level: 5, description: "...", tags: ["jeu"], checked: false}
     // ]);
 
+    useEffect(() => {
+        if (!token) return;
+        
+        getTasks(token)
+            .then(res => setTasks(res.data))
+            .catch(err => console.error(err));
+    }, [token]);
 
     //détection de changement d'état d'une tâche
     const handleCheckedTask = (taskId: number) => {
@@ -37,6 +46,17 @@ export default function DashBoard() {
             })
         )
     }
+
+    const fetchTasks = () => {
+    if (!token) return;
+        getTasks(token)
+            .then(res => setTasks(res.data))
+            .catch(err => console.error(err));
+    };
+
+    useEffect(() => {
+        fetchTasks();
+    }, [token]);
 
     return (
         <>
@@ -75,9 +95,9 @@ export default function DashBoard() {
  
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-3 flex-1">
                     {tasks.length > 0 ? (
-                            tasks.map(task => (
+                            tasks.map((task, index) => (
                                 <TaskContainer 
-                                    key={task.id}
+                                    key={task.id ?? index}
                                     task={task}
                                     onChange={handleCheckedTask}
                                 />
@@ -93,7 +113,16 @@ export default function DashBoard() {
             </div>
  
         </div>
-            {isModalOpen && <TaskModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />}
+            {isModalOpen && (
+                <TaskModal 
+                    isOpen={isModalOpen} 
+                    onClose={() => setIsModalOpen(false)}
+                    onSubmit={() => {
+                        fetchTasks();
+                        setIsModalOpen(false);
+                    }}
+                />
+            )}
         </>
     );
 }
