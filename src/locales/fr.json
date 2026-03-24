@@ -62,6 +62,7 @@
     "task_level": "Choix du niveau de la tâche", 
     "task_title_description": "Description",
     "task_description": "Décrivez votre tâche dans les moindres détails ...", 
+    "tag_placeholder": "Appuyer sur Entrée",
     "tag_title": "Tags", 
     "submit": "Ajouter la tâche"
   }, 

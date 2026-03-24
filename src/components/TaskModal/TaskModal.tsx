@@ -3,6 +3,8 @@ import { useState } from 'react';
 import style from './TaskModal.module.css';
 import translate from "@/src/locales/fr.json";
 import { createTask } from "@/src/services/task.service"; // adapte le chemin
+import { MdClose } from 'react-icons/md';
+const LEVEL_COUNT = 5;
 
 interface TaskModalProps {
     isOpen?: boolean;
@@ -60,10 +62,9 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
             const newTask = await createTask({
                 label: taskLabel,
                 description: taskDescription,
-                level: taskLevel,
                 tags: taskTags,
                 checked: false,
-                difficulty: 0,
+                difficulty: taskLevel,
             });
 
             onSubmit?.(newTask);
@@ -96,17 +97,20 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
 
                         <div className={style.levelSelection}>
                             <span>{translate.modal.task_level}</span>
-                            <div className={style.levelOptions}>
-                                {[1, 2, 3].map(level => (
-                                    <button
-                                        key={level}
-                                        onClick={() => setTaskLevel(level)}
-                                        className={taskLevel === level ? style.levelActive : style.levelButton}
-                                    >
-                                        {level}
-                                    </button>
-                                ))}
-                            </div>
+                                <div className={style.dots}>
+                                    {Array.from({ length: LEVEL_COUNT }, (_, i) => {
+                                        const dotLevel = LEVEL_COUNT - i;
+                                        return (
+                                        <span
+                                            key={i}
+                                            className={dotLevel <= taskLevel ? style.dotInactive : style.dotActive}
+                                            onClick={() => setTaskLevel(dotLevel === taskLevel ? 0 : dotLevel)}
+                                            role="button"
+                                            aria-label={`Level ${dotLevel}`}
+                                        />
+                                        );
+                                    })}
+                                </div>
                         </div>
 
                         <div className={style.modalContent}>
@@ -123,15 +127,17 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
                                 />
                             </div>
 
-                            <div className={style.tagsContainer}>
+                            <div className={style.tagContainer}>
                                 <label htmlFor='tags' className={style.title}>
                                     {translate.modal.tag_title}
                                 </label>
                                 <div className={style.tagsList}>
-                                    {taskTags.map((tag, i) => (
+                                    {taskTags.slice(0, 4).map((tag, i) => (
                                         <span key={i} className={style.tag}>
                                             {tag}
-                                            <button onClick={() => handleRemoveTag(i)}>×</button>
+                                            <button className={style.removeButton} onClick={() => handleRemoveTag(i)}>
+                                                <MdClose size={16} />
+                                            </button>
                                         </span>
                                     ))}
                                 </div>
@@ -141,7 +147,7 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
                                     value={tagInput}
                                     onChange={e => setTagInput(e.target.value)}
                                     onKeyDown={handleAddTag}
-                                    placeholder="Appuyer sur Entrée pour ajouter"
+                                    placeholder={translate.modal.tag_placeholder}
                                 />
                             </div>
 

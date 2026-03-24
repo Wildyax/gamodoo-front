@@ -29,7 +29,7 @@ export default function TaskContainer({task, onChange}: TaskContainerProps) {
                     {Array.from({ length: LEVEL_COUNT }, (_, i) => (
                         <span 
                             key={i}
-                            className={i > task.level-1 ? styles.dotActive : styles.dotInactive}
+                            className={i > task.difficulty - 1 ? styles.dotActive : styles.dotInactive}
                         ></span>
                     ))}
                 </div>

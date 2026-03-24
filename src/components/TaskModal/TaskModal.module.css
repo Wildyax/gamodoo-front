@@ -108,9 +108,14 @@
     flex-direction: column;
     gap: 0.5rem;
     border-radius: 20px;
-    border: 1px solid var(--modal-text-color);
     color: var(--modal-description-color);
     margin-left: 1rem;
+}
+
+.tagList {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
 }
 
 .submitContainer {
@@ -125,4 +130,39 @@
 .submitButton {
     color: var(--foreground);
     font-family: var(--font-jersey-15);
+}
+
+.dots {
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.dots span {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: transform 0.15s ease, opacity 0.15s ease;
+  display: block;
+}
+
+.dots span:hover {
+  transform: scale(1.3);
+  opacity: 100% !important;
+}
+
+.dotActive {
+  background-color: #38180D;
+  opacity: 40%;
+}
+
+.dotInactive {
+  background-color: #3a1f12;
+}
+
+.removeButton {
+    align-items: center;
+    margin-left: 0.5rem;
 }
