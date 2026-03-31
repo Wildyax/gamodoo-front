@@ -31,6 +31,14 @@ export default function UserStatistics() {
     
     return (
         <>
+            {/* NOTE : je décide de modifier cette section pour y mettre l'accès aux boss en fonction du niveau de l'utilisateur */}
+            <div className={`${styles.bossInformations} col-start-5 col-end-6 row-start-4 row-end-6`}>
+                <span className={styles.bossTitle}>{translate.boss_access.next || 'Next boss !'}</span>
+                <div className={styles.bossContainer}>
+                    {/* TODO: a modifier dynamiquement */}
+                    <span className="">A compléter</span>
+                </div>
+            </div>
             <div className={`${styles.userInformations} col-start-5 col-end-6 row-start-1 row-end-4`}>
                 <span className={styles.greeting}>{translate.user_info_card.hello} {user.login} !</span>
                 
@@ -59,14 +67,6 @@ export default function UserStatistics() {
                         alt="Character"
                         className={styles.characterImage}
                     />
-                </div>
-            </div>
-
-            <div className={`${styles.levelUpInformations} col-start-5 col-end-6 row-start-4 row-end-6`}>
-                <span className={styles.levelUpTitle}>{translate.user_level_up.level_up || 'Level up !'}</span>
-                <div className={styles.skillsContainer}>
-                    {/* TODO: a modifier dynamiquement */}
-                    <span className="">A compléter</span>
                 </div>
             </div>
         </>

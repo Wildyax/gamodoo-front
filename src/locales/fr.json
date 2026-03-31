@@ -53,8 +53,8 @@
     "to_do": "A faire", 
     "realised": "Terminé"
   }, 
-  "user_level_up": {
-    "level_up": "Niveau supérieur !",
+  "boss_access": {
+    "next": "Prochain boss !",
     "task": " tâches"
   }, 
   "modal": {
