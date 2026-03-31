@@ -9,23 +9,17 @@ import UserStatistics from '@/src/components/UserStatistics/UserStatistics';
 import TaskModal from '@/src/components/TaskModal/TaskModal';
 import {useAuth} from "@/src/context/AuthContext";
 import {redirect} from "next/navigation";
-import {router} from "next/client";
 import { useEffect } from 'react';
-import { getTasks } from "@/src/services/task.service";
+import { getTasks, updateTask } from "@/src/services/task.service";
 
 export default function DashBoard() {
-    // Si pas connecté redirigé vers la page de connexion
     const { token } = useAuth();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [taskState, setTaskState] = useState(false);
     const [tasks, setTasks] = useState<TaskData[]>([]);
+    const [allTasks, setAllTasks] = useState<TaskData[]>([]);
     
     if(!token) redirect('/account/connexion');
-
-    //TODO : a remplacer par une vraie récupération des tâches
-    // const [tasks, setTasks] = useState<TaskData[]>([
-    //     { id: 1, label: "Révision", level: 2, description: "...", tags: ["cours"], checked: false},
-    //     { id: 2, label: "Gaming", level: 5, description: "...", tags: ["jeu"], checked: false}
-    // ]);
 
     useEffect(() => {
         if (!token) return;
@@ -35,22 +29,35 @@ export default function DashBoard() {
             .catch(err => console.error(err));
     }, [token]);
 
-    //détection de changement d'état d'une tâche
     const handleCheckedTask = (taskId: number) => {
-        setTasks(prevTasks =>
-            prevTasks.map(task => {
-                if (task.id === taskId) {
-                    return { ...task, checked: !task.checked };
-                }
-                return task;
+        const task = allTasks.find(t => t.id === taskId);
+        if (!task || !token) return;
+
+        const updatedTask = { ...task, checked: !task.checked };
+        updateTask(token, taskId, updatedTask)
+            .then(() => {
+                setAllTasks(prev => prev.map(t => t.id === taskId ? updatedTask : t));
+                setTasks(prev => prev.map(t => t.id === taskId ? updatedTask : t));
             })
-        )
-    }
+            .catch(err => console.error(err));
+    };
+
+    const handleToggle = (isComplete: boolean) => {
+        setTaskState(isComplete);
+        if(isComplete) {
+            setTasks(allTasks.filter(task => task.checked));
+        } else {
+            setTasks(allTasks.filter(task => !task.checked));
+        }
+    };
 
     const fetchTasks = () => {
-    if (!token) return;
+        if (!token) return;
         getTasks(token)
-            .then(res => setTasks(res.data))
+            .then(res => {
+                setAllTasks(res.data);
+                setTasks(res.data);
+            })
             .catch(err => console.error(err));
     };
 
@@ -74,7 +81,7 @@ export default function DashBoard() {
                     </div>
             
                     <div className="flex flex-row justify-between items-center gap-2 sm:contents">
-                        <ToggleButton />
+                        <ToggleButton onToggle={handleToggle} />
                 
                         <img
                             src="logo/full_logo.png"

@@ -36,3 +36,20 @@ export const getTasks = async (token: string) => {
 
     return response.json();
 };
+
+export const updateTask = async (token: string, taskId: number, taskData: TaskData) => {
+    const response = await fetch(`${apiUrl}/task/${taskId}`, {
+        method: "PUT",
+        headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        body: JSON.stringify(taskData),
+    });
+
+    if (!response.ok) {
+        throw new Error("Error updating tasks");
+    }
+
+    return response.json();
+};

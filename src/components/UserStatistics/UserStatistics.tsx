@@ -6,7 +6,6 @@ import ProgressBarProps from "../ProgressBar/ProgressBar";
 import CircleChart from "../CircleChart/CircleChart";
 
 const getJobImage = (jobId: string | number): string => {
-    console.log("Job ID:", jobId);
     switch(jobId) {
         case 1:
             return `../../../characters/assassin.gif`;
