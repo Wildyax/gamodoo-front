@@ -21,6 +21,10 @@
   --modal-unselected-level: rgba(56, 24, 13, 0.4);
   --modal-submit-button: linear-gradient(90deg, #663525 0%, #642B19 100%);
   --modal-tag-background: rgba(37, 37, 37, 0.6);
+
+  /* Error */
+  --error-color: rgb(239, 68, 68, 0.8);
+  --error-font-style: var(--font-source-code-pro);
 }
 
 @theme inline {

@@ -58,8 +58,10 @@ export default async function RootLayout({
                 </div>
               </> :
               <>
-                <Header />
+                <div className="main-content">
+                  <Header/>
                   {children}
+                </div>
               </>
             }
             <ErrorComponent />

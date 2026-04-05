@@ -58,7 +58,7 @@ export default function UserStatistics() {
                             <div className={styles.levelDisplay}>{user.level}</div>
                         </div>
 
-                        <CircleChart data={taskData} />
+                        <CircleChart data={taskData} height={180} />
                 </div>
 
                 <div className={styles.jobCharacter}>

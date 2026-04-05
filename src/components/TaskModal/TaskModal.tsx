@@ -37,7 +37,7 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
     };
 
     const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
-        if (e.key === 'Enter' && tagInput.trim()) {
+        if (e.key === 'Enter' && tagInput.trim() && taskTags.length < 5) {
             e.preventDefault();
             setTaskTags(prev => [...prev, tagInput.trim()]);
             setTagInput('');
@@ -125,6 +125,13 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
                                     value={taskDescription}
                                     onChange={e => setTaskDescription(e.target.value)}
                                 />
+                                {
+                                    taskTags.length < 5 || (
+                                        <div className={style.error}>
+                                            <span>{translate.modal.tag_limit}</span>
+                                        </div>
+                                    )
+                                }
                             </div>
 
                             <div className={style.tagContainer}>
@@ -132,7 +139,7 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
                                     {translate.modal.tag_title}
                                 </label>
                                 <div className={style.tagsList}>
-                                    {taskTags.slice(0, 4).map((tag, i) => (
+                                    {taskTags.slice(0, 6).map((tag, i) => (
                                         <span key={i} className={style.tag}>
                                             {tag}
                                             <button className={style.removeButton} onClick={() => handleRemoveTag(i)}>

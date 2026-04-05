@@ -64,7 +64,8 @@
     "task_description": "Décrivez votre tâche dans les moindres détails ...", 
     "tag_placeholder": "Appuyer sur Entrée",
     "tag_title": "Tags", 
-    "submit": "Ajouter la tâche"
+    "submit": "Ajouter la tâche", 
+    "tag_limit": "Limite de 5 tags atteinte"
   }, 
   "task_card": {
     "no_task": "Pas de tâches... Créé en une pour commencer l'aventure !"
