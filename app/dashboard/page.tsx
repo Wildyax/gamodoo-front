@@ -1,4 +1,5 @@
 'use client';
+import React from 'react';
 import {useState} from 'react';
 import TaskContainer from "@/src/components/TaskContainer/TaskContainer";
 import { TaskData } from '@/src/models/Task';
@@ -21,48 +22,37 @@ export default function DashBoard() {
     
     if(!token) redirect('/account/connexion');
 
-    useEffect(() => {
-        if (!token) return;
-        
-        getTasks(token)
-            .then(res => setTasks(res.data))
-            .catch(err => console.error(err));
-    }, [token]);
-
     const handleCheckedTask = (taskId: number) => {
-        const task = allTasks.find(t => t.id === taskId);
-        if (!task || !token) return;
+    const task = allTasks.find(t => t.id === taskId);
+    if (!task || !token) return;
 
-        const updatedTask = { ...task, checked: !task.checked };
-        updateTask(token, taskId, updatedTask)
-            .then(() => {
-                setAllTasks(prev => prev.map(t => t.id === taskId ? updatedTask : t));
-                setTasks(prev => prev.map(t => t.id === taskId ? updatedTask : t));
-            })
-            .catch(err => console.error(err));
+    const updatedTask = { ...task, checked: !task.checked };
+    updateTask(token, taskId, updatedTask)
+        .then(() => {
+            const updatedAll = allTasks.map(t => t.id === taskId ? updatedTask : t);
+            setAllTasks(updatedAll);
+            setTasks(updatedAll.filter(t => t.checked === taskState));
+        })
+        .catch(err => console.error(err));
     };
 
     const handleToggle = (isComplete: boolean) => {
         setTaskState(isComplete);
-        if(isComplete) {
-            setTasks(allTasks.filter(task => task.checked));
-        } else {
-            setTasks(allTasks.filter(task => !task.checked));
-        }
+        setTasks(allTasks.filter(task => task.checked === isComplete));
     };
 
-    const fetchTasks = () => {
-        if (!token) return;
-        getTasks(token)
-            .then(res => {
-                setAllTasks(res.data);
-                setTasks(res.data);
-            })
-            .catch(err => console.error(err));
-    };
+    const fetchTasks = (showCompleted = false) => {
+    if (!token) return;
+    getTasks(token)
+        .then(res => {
+            setAllTasks(res.data);
+            setTasks(res.data.filter((t: TaskData) => t.checked === showCompleted));
+        })
+        .catch(err => console.error(err));
+};
 
     useEffect(() => {
-        fetchTasks();
+        fetchTasks(taskState);
     }, [token]);
 
     return (
@@ -100,7 +90,7 @@ export default function DashBoard() {
                 </div>
     
  
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-3 flex-1">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-3 content-start">
                     {tasks.length > 0 ? (
                             tasks.map((task, index) => (
                                 <TaskContainer 
