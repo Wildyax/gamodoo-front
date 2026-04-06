@@ -53,3 +53,19 @@ export const updateTask = async (token: string, taskId: number, taskData: TaskDa
 
     return response.json();
 };
+
+export const checkTask = async (token: string, taskId: number) => {
+    const response = await fetch(`${apiUrl}/task/check/${taskId}`, {
+        method: "GET",
+        headers: { 
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+    });
+
+    if (!response.ok) {
+        throw new Error("Error checking task");
+    }
+
+    return response.json();
+};

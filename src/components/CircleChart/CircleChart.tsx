@@ -1,6 +1,6 @@
 'use client';
 
-import { PieChart, Pie, Cell, Legend, Tooltip, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, Legend, ResponsiveContainer } from 'recharts';
 import styles from './CircleChart.module.css';
 
 /**
@@ -10,16 +10,12 @@ import styles from './CircleChart.module.css';
  * @param {number} props.outerRadius
  * @param {number} props.innerRadius
  * @param {boolean} props.showLegend
- * @param {boolean} props.showTooltip
- * @param {string} props.centerLabel
  */
-export default function ChartCirculaire({
+export default function CircleChart({
   data,
   outerRadius = '80%',
   innerRadius = '60%',
   showLegend = true,
-  showTooltip = true,
-  centerLabel = null,
   width = '100%',
   height = 400,
 }: {
@@ -44,20 +40,15 @@ export default function ChartCirculaire({
             innerRadius={innerRadius}
             isAnimationActive={true}
             label
+            style={{ fontFamily: 'var(--font-source-code-pro)', fontSize: '15px' }}
           >
             {data.map((entry: { fill: string | undefined; }, index: any) => (
               <Cell key={`cell-${index}`} fill={entry.fill} />
             ))}
           </Pie>
-          {showTooltip && <Tooltip />}
           {showLegend && <Legend />}
         </PieChart>
       </ResponsiveContainer>
-      {centerLabel && (
-        <div className={styles.centerLabel}>
-          {centerLabel}
-        </div>
-      )}
     </div>
   );
 }

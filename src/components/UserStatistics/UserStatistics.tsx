@@ -5,6 +5,8 @@ import translate from "../../locales/fr.json";
 import ProgressBarProps from "../ProgressBar/ProgressBar";
 import CircleChart from "../CircleChart/CircleChart";
 
+const XP_PER_LEVEL = 100;
+
 const getJobImage = (jobId: string | number): string => {
     switch(jobId) {
         case 1:
@@ -20,22 +22,22 @@ const getJobImage = (jobId: string | number): string => {
     }
 };
 
-export default function UserStatistics() {
+export default function UserStatistics({ todoCount, doneCount }: { todoCount: number, doneCount: number }) {
     const { user } = useAuth();
     if (!user) return null;
 
     const taskData = [
-        { name: translate.user_info_card.to_do, value: 30, fill: '#CDA47B' },
-        { name: translate.user_info_card.realised, value: 10, fill: '#642B19' },
+        { name: translate.user_info_card.to_do, value: todoCount, fill: '#CDA47B' },
+        { name: translate.user_info_card.realised, value: doneCount, fill: '#38170E' },
     ];
+
+    const currentLevelXp = user.exp % XP_PER_LEVEL;
     
     return (
         <>
-            {/* NOTE : je décide de modifier cette section pour y mettre l'accès aux boss en fonction du niveau de l'utilisateur */}
             <div className={`${styles.bossInformations} col-start-5 col-end-6 row-start-4 row-end-6`}>
                 <span className={styles.bossTitle}>{translate.boss_access.next || 'Next boss !'}</span>
                 <div className={styles.bossContainer}>
-                    {/* TODO: a modifier dynamiquement */}
                     <span className="">A compléter</span>
                 </div>
             </div>
@@ -43,22 +45,21 @@ export default function UserStatistics() {
                 <span className={styles.greeting}>{translate.user_info_card.hello} {user.login} !</span>
                 
                 <div className={styles.bossSection}>
-                    {/* TODO: a modifier dynamiquement */}
                     <span className={styles.bossLabel}>Boss 1/10</span> 
                 </div>
 
                 <div className={styles.statsWrapper}>
-                        <div className={styles.statItem}>
-                            <label className={styles.statLabel}>{translate.user_info_card.xp}</label>
-                            <ProgressBarProps current={user.exp} max={100} label="" />
-                        </div>
+                    <div className={styles.statItem}>
+                        <label className={styles.statLabel}>{translate.user_info_card.xp}</label>
+                        <ProgressBarProps current={currentLevelXp} max={XP_PER_LEVEL} label="" />
+                    </div>
 
-                        <div className={styles.statItem}>
-                            <label className={styles.statLabel}>{translate.user_info_card.level}</label>
-                            <div className={styles.levelDisplay}>{user.level}</div>
-                        </div>
+                    <div className={styles.statItem}>
+                        <label className={styles.statLabel}>{translate.user_info_card.level}</label>
+                        <div className={styles.levelDisplay}>{user.level}</div>
+                    </div>
 
-                        <CircleChart data={taskData} height={180} />
+                    {(todoCount + doneCount) > 0 && <CircleChart data={taskData} height={180} />}
                 </div>
 
                 <div className={styles.jobCharacter}>

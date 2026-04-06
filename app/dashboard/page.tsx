@@ -4,14 +4,14 @@ import {useState} from 'react';
 import TaskContainer from "@/src/components/TaskContainer/TaskContainer";
 import { TaskData } from '@/src/models/Task';
 import ToggleButton from '@/src/components/ToggleButton/ToggleButton';
-import "../dashboard/style.css";
+import "./style.css";
 import translate from "@/src/locales/fr.json";
 import UserStatistics from '@/src/components/UserStatistics/UserStatistics';
 import TaskModal from '@/src/components/TaskModal/TaskModal';
 import {useAuth} from "@/src/context/AuthContext";
 import {redirect} from "next/navigation";
 import { useEffect } from 'react';
-import { getTasks, updateTask } from "@/src/services/task.service";
+import { getTasks, checkTask } from "@/src/services/task.service";
 
 export default function DashBoard() {
     const { token } = useAuth();
@@ -19,21 +19,24 @@ export default function DashBoard() {
     const [taskState, setTaskState] = useState(false);
     const [tasks, setTasks] = useState<TaskData[]>([]);
     const [allTasks, setAllTasks] = useState<TaskData[]>([]);
+    const [todoCount, setTodoCount] = useState(0);
+    const [doneCount, setDoneCount] = useState(0);
     
     if(!token) redirect('/account/connexion');
 
     const handleCheckedTask = (taskId: number) => {
-    const task = allTasks.find(t => t.id === taskId);
-    if (!task || !token) return;
+        const task = allTasks.find(t => t.id === taskId);
+        if (!task || !token) return;
 
-    const updatedTask = { ...task, checked: !task.checked };
-    updateTask(token, taskId, updatedTask)
-        .then(() => {
-            const updatedAll = allTasks.map(t => t.id === taskId ? updatedTask : t);
-            setAllTasks(updatedAll);
-            setTasks(updatedAll.filter(t => t.checked === taskState));
-        })
-        .catch(err => console.error(err));
+        checkTask(token, taskId)
+            .then(() => {
+                const updatedAll = allTasks.map(t => t.id === taskId ? { ...t, checked: true } : t);
+                setAllTasks(updatedAll);
+                setTasks(updatedAll.filter(t => t.checked === taskState));
+                setTodoCount(updatedAll.filter(t => !t.checked).length);
+                setDoneCount(updatedAll.filter(t => t.checked).length);
+            })
+            .catch(err => console.error(err));
     };
 
     const handleToggle = (isComplete: boolean) => {
@@ -42,14 +45,17 @@ export default function DashBoard() {
     };
 
     const fetchTasks = (showCompleted = false) => {
-    if (!token) return;
-    getTasks(token)
-        .then(res => {
-            setAllTasks(res.data);
-            setTasks(res.data.filter((t: TaskData) => t.checked === showCompleted));
-        })
-        .catch(err => console.error(err));
-};
+        if (!token) return;
+        getTasks(token)
+            .then(res => {
+                const tasks = res.data;
+                setAllTasks(tasks);
+                setTasks(tasks.filter((t: TaskData) => t.checked === showCompleted));
+                setTodoCount(tasks.filter((t: TaskData) => !t.checked).length);
+                setDoneCount(tasks.filter((t: TaskData) => t.checked).length);
+            })
+            .catch(err => console.error(err));
+    };
 
     useEffect(() => {
         fetchTasks(taskState);
@@ -106,7 +112,7 @@ export default function DashBoard() {
             </div>
             
             <div className="w-full lg:w-auto lg:flex-shrink lg:max-w-xs xl:max-w-sm">
-                <UserStatistics />
+                <UserStatistics todoCount={todoCount} doneCount={doneCount} />
             </div>
  
         </div>
