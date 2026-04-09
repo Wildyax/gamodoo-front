@@ -4,8 +4,8 @@ import styles from "./UserStatistics.module.css";
 import translate from "../../locales/fr.json";
 import ProgressBarProps from "../ProgressBar/ProgressBar";
 import CircleChart from "../CircleChart/CircleChart";
-
-const XP_PER_LEVEL = 100;
+import { useEffect, useState } from "react";
+import { getExperienceByUserLevel } from "@/src/services/experience.service";
 
 const getJobImage = (jobId: string | number): string => {
     switch(jobId) {
@@ -23,16 +23,25 @@ const getJobImage = (jobId: string | number): string => {
 };
 
 export default function UserStatistics({ todoCount, doneCount }: { todoCount: number, doneCount: number }) {
-    const { user } = useAuth();
+    const { user, token } = useAuth();
+    const [maxXp, setMaxXp] = useState<number | null>(null);
     if (!user) return null;
+
+    useEffect(() => {
+        if (!user || !token) return;
+        
+        getExperienceByUserLevel(user, token)
+            .then((exp) => exp && setMaxXp(exp.exp))
+            .catch(console.error);
+    }, [user, token]);
 
     const taskData = [
         { name: translate.user_info_card.to_do, value: todoCount, fill: '#CDA47B' },
         { name: translate.user_info_card.realised, value: doneCount, fill: '#38170E' },
     ];
 
-    const currentLevelXp = user.exp % XP_PER_LEVEL;
-    
+    const currentLevelXp = maxXp ? user.exp % maxXp : 0;
+
     return (
         <>
             <div className={`${styles.bossInformations} col-start-5 col-end-6 row-start-4 row-end-6`}>
@@ -43,20 +52,21 @@ export default function UserStatistics({ todoCount, doneCount }: { todoCount: nu
             </div>
             <div className={`${styles.userInformations} col-start-5 col-end-6 row-start-1 row-end-4`}>
                 <span className={styles.greeting}>{translate.user_info_card.hello} {user.login} !</span>
-                
-                <div className={styles.bossSection}>
-                    <span className={styles.bossLabel}>Boss 1/10</span> 
-                </div>
 
                 <div className={styles.statsWrapper}>
-                    <div className={styles.statItem}>
-                        <label className={styles.statLabel}>{translate.user_info_card.xp}</label>
-                        <ProgressBarProps current={currentLevelXp} max={XP_PER_LEVEL} label="" />
-                    </div>
-
+                    
                     <div className={styles.statItem}>
                         <label className={styles.statLabel}>{translate.user_info_card.level}</label>
                         <div className={styles.levelDisplay}>{user.level}</div>
+                    </div>
+
+                    <div className={styles.statItem}>
+                        <label className={styles.statLabel}>{translate.user_info_card.xp}</label>
+                        {maxXp ? (
+                            <ProgressBarProps current={currentLevelXp} max={maxXp} label="" />
+                        ) : (
+                            <span>Chargement...</span>
+                        )}
                     </div>
 
                     {(todoCount + doneCount) > 0 && <CircleChart data={taskData} height={180} />}

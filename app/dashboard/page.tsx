@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import { getTasks, checkTask } from "@/src/services/task.service";
 
 export default function DashBoard() {
-    const { token } = useAuth();
+    const { token, refreshUser } = useAuth();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [taskState, setTaskState] = useState(false);
     const [tasks, setTasks] = useState<TaskData[]>([]);
@@ -35,6 +35,7 @@ export default function DashBoard() {
                 setTasks(updatedAll.filter(t => t.checked === taskState));
                 setTodoCount(updatedAll.filter(t => !t.checked).length);
                 setDoneCount(updatedAll.filter(t => t.checked).length);
+                refreshUser(token);
             })
             .catch(err => console.error(err));
     };
