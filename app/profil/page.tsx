@@ -3,11 +3,13 @@
 import { useAuth } from "@/src/context/AuthContext";
 import Link from "next/dist/client/link";
 import translate from "./../../src/locales/fr.json";
+import UnderConstruction from "@/src/components/UnderConstruction/UnderConstruction";
 
 export default function ProfilPage() {
     const { token, logout } = useAuth();
     return (
         <>
+            <UnderConstruction />
             <Link
                 href="/"
                 className={`

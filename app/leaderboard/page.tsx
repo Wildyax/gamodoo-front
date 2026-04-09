@@ -1,7 +1,9 @@
+import UnderConstruction from "@/src/components/UnderConstruction/UnderConstruction";
+
 export default function LeaderboardPage() {
     return (
         <>
-            <p>Leaderboard Page</p>
+            <UnderConstruction />
         </>
     );
 }

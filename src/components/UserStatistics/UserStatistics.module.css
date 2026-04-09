@@ -127,6 +127,13 @@
     padding: 0 10px;
 }
 
+.bossLine { color: #CDA47B; font-size: 13px; font-family: var(--font-source-code-pro); margin: 0 0 0.4rem; text-align: center; }
+.bossTag { color: rgba(205, 164, 123, 0.7); }
+.bossDots { color: rgba(205, 164, 123, 0.4); }
+.bossStatus { color: #CDA47B; font-weight: bold; }
+.bossMuted { color: rgba(205, 164, 123, 0.6); font-size: 12px; font-family: var(--font-source-code-pro); margin: 0; text-align: center; }
+.bossCursor { color: #CDA47B; animation: blink 1s step-end infinite; }
+
 /* Responsive */
 @media (max-width: 1440px) {
     .userInformations,

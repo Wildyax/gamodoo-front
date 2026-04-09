@@ -4,7 +4,7 @@ import {useState} from 'react';
 import TaskContainer from "@/src/components/TaskContainer/TaskContainer";
 import { TaskData } from '@/src/models/Task';
 import ToggleButton from '@/src/components/ToggleButton/ToggleButton';
-import "./style.css";
+import style from "./style.module.css";
 import translate from "@/src/locales/fr.json";
 import UserStatistics from '@/src/components/UserStatistics/UserStatistics';
 import TaskModal from '@/src/components/TaskModal/TaskModal';
@@ -86,10 +86,10 @@ export default function DashBoard() {
                             className="hidden sm:block w-20 lg:w-28 h-auto"
                         />
                 
-                        <button className="button items-center justify-center inline-flex rounded-full shadow-lg
+                        <button className={`${style.button} items-center justify-center inline-flex rounded-full shadow-lg
                             px-4 py-2 text-sm
                             lg:px-6 lg:py-2
-                            font-medium whitespace-nowrap"
+                            font-medium whitespace-nowrap`}
                             onClick={() => setIsModalOpen(true)}>
                             {translate.navbar_dashboard.add}
                         </button>
@@ -99,16 +99,23 @@ export default function DashBoard() {
  
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-3 content-start">
                     {tasks.length > 0 ? (
-                            tasks.map((task, index) => (
-                                <TaskContainer 
-                                    key={task.id ?? index}
-                                    task={task}
-                                    onChange={handleCheckedTask}
-                                />
-                            ))
-                        ) : (
-                            <p>{translate.task_card.no_task}</p>
-                        )}
+                        tasks.map((task, index) => (
+                            <TaskContainer key={task.id ?? index} task={task} onChange={handleCheckedTask} />
+                        ))
+                    ) : (
+                        <div className={style.emptyState}>
+                            <p className={style.emptyLine}>
+                                <span className={style.emptyTag}>[QUÊTE]</span>
+                                <span className={style.emptyDots}> .............. </span>
+                                <span className={style.emptyStatus}>AUCUNE TÂCHE</span>
+                            </p>
+                            <p className={style.emptyLine}>
+                                <span className={style.emptyTag}>[HÉROS]</span>
+                                <span className={style.emptyDots}> .............. </span>
+                                <span className={style.emptyStatus}>EN ATTENTE</span>
+                            </p>
+                        </div>
+                    )}
                 </div>
             </div>
             

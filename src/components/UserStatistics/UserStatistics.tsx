@@ -45,9 +45,13 @@ export default function UserStatistics({ todoCount, doneCount }: { todoCount: nu
     return (
         <>
             <div className={`${styles.bossInformations} col-start-5 col-end-6 row-start-4 row-end-6`}>
-                <span className={styles.bossTitle}>{translate.boss_access.next || 'Next boss !'}</span>
+                <span className={styles.bossTitle}>{translate.boss_access.next || 'Prochain boss !'}</span>
                 <div className={styles.bossContainer}>
-                    <span className="">A compléter</span>
+                    <p className={styles.bossLine}>
+                        <span className={styles.bossTag}>[BOSS]</span>
+                        <span className={styles.bossDots}> ....... </span>
+                        <span className={styles.bossStatus}>VERROUILLÉ</span>
+                    </p>
                 </div>
             </div>
             <div className={`${styles.userInformations} col-start-5 col-end-6 row-start-1 row-end-4`}>
