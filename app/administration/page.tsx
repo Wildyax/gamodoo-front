@@ -1,7 +1,9 @@
+import UnderConstruction from "@/src/components/UnderConstruction/UnderConstruction";
+
 export default function AdministrationPage() {
     return (
         <>
-            <p>Admin Page</p>
+            <UnderConstruction />
         </>
     );
 }

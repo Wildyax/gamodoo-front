@@ -8,6 +8,7 @@ type AuthContextType = {
     login: (token: string) => void;
     setUser: (user: any) => void;
     logout: () => void;
+    refreshUser: (token: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | null>(null);
@@ -17,6 +18,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     const [user, setUser] = useState<null>(null);
     const [loading, setLoading] = useState(true);
 
+    const refreshUser = async (currentToken: string) => {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/user`, {
+            headers: { Authorization: `Bearer ${currentToken}` }
+        });
+        if (response.ok) {
+            const data = await response.json();
+            setUser(data);
+            localStorage.setItem('user', JSON.stringify(data));
+        }
+    };
 
     useEffect(() => {
         const cookieToken = document.cookie
@@ -48,7 +59,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ token, login, logout, setUser, user }}>
+        <AuthContext.Provider value={{ token, login, logout, setUser, user, refreshUser }}>
             {children}
         </AuthContext.Provider>
     );

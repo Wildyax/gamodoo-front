@@ -1,0 +1,12 @@
+.button {
+    background: var(--toggle-background);
+}
+
+.emptyState {
+    padding: 2rem;
+    font-family: var(--font-source-code-pro);
+}
+.emptyLine { color: #CDA47B; font-size: 13px; display: block; margin-bottom: 0.4rem; }
+.emptyTag { color: rgba(205, 164, 123, 0.45); }
+.emptyDots { color: rgba(205, 164, 123, 0.25); }
+.emptyStatus { color: #8a3620; }

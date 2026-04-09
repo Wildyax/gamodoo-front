@@ -1,9 +1,11 @@
+import { User } from "./User";
+
 export interface TaskData {
-    id: number;
+    id?: number;
     label: string;
-    level: number;
     description: string;
     tags: string[];
     checked: boolean;
-    createdAt: Date;
+    difficulty: number;
+    // createdAt: Date;
 }
