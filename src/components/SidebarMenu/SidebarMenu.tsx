@@ -5,6 +5,7 @@ import { MdDashboard, MdSettings, MdEmojiEvents, MdAccountCircle, MdMenu, MdClos
 import styles from "./SidebarMenu.module.css";
 import translate from "../../locales/fr.json";
 import Link from 'next/link';
+import {useAuth} from "@/src/context/AuthContext";
 
 const MenuItem = [
     {id: 1, label: translate.sidebar.menu, path: "/dashboard", icon: MdDashboard}, 
@@ -14,9 +15,10 @@ const MenuItem = [
 ]
 
 export default function SidebarMenu() {
+    const {token} = useAuth()
     const pathname = usePathname();
     const [isOpen, setIsOpen] = useState(false);
-    const isConnected: boolean = true;
+    const isConnected: string | null = token;
     // penser à mettre à false quand on aura la logique de récupération du user 
     // const [isConnected, setIsConnected] = useState(false);
  
