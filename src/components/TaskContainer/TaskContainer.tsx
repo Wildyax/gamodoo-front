@@ -6,9 +6,10 @@ const LEVEL_COUNT = 5;
 interface TaskContainerProps {
     task: TaskData;
     onChange?: (taskId: number) => void;
+    onView?: (task: TaskData) => void;
 }
 
-export default function TaskContainer({task, onChange}: TaskContainerProps) {
+export default function TaskContainer({task, onChange, onView}: TaskContainerProps) {
     const handleChecked = () => {
         onChange?.(task.id ?? 0);
     }
@@ -20,7 +21,7 @@ export default function TaskContainer({task, onChange}: TaskContainerProps) {
                 onClick={handleChecked}
             >
             </button>
-            <div className={styles.card}>
+            <div className={styles.card} onClick={() => onView?.(task)} style={{ cursor: 'pointer' }}>
                 <div className={styles.dots}>
                     {Array.from({ length: LEVEL_COUNT }, (_, i) => (
                         <span 

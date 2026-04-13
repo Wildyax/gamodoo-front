@@ -2,21 +2,25 @@
 import { useState } from 'react';
 import style from './TaskModal.module.css';
 import translate from "@/src/locales/fr.json";
-import { createTask } from "@/src/services/task.service"; // adapte le chemin
+import { createTask } from "@/src/services/task.service";
 import { MdClose } from 'react-icons/md';
+import { TaskData } from '@/src/models/Task';
+
 const LEVEL_COUNT = 5;
 
 interface TaskModalProps {
     isOpen?: boolean;
     onClose?: () => void;
     onSubmit?: ((task: any) => void) | null;
+    readOnly?: boolean;
+    task?: TaskData | null;
 }
 
-export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit = null }: TaskModalProps) {
-    const [taskLabel, setTaskLabel] = useState('');
-    const [taskDescription, setTaskDescription] = useState('');
-    const [taskLevel, setTaskLevel] = useState(0);
-    const [taskTags, setTaskTags] = useState<string[]>([]);
+export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit = null, readOnly = false, task = null }: TaskModalProps) {
+    const [taskLabel, setTaskLabel] = useState(task?.label ?? '');
+    const [taskDescription, setTaskDescription] = useState(task?.description ?? '');
+    const [taskLevel, setTaskLevel] = useState(task?.difficulty ?? 0);
+    const [taskTags, setTaskTags] = useState<string[]>(task?.tags ?? []);
     const [tagInput, setTagInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
@@ -90,27 +94,28 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
                                 type="text"
                                 placeholder={translate.modal.title}
                                 value={taskLabel}
-                                onChange={e => setTaskLabel(e.target.value)}
+                                onChange={e => !readOnly && setTaskLabel(e.target.value)}
+                                readOnly={readOnly}
                             />
                             <a onClick={handleClose}>X</a>
                         </div>
 
                         <div className={style.levelSelection}>
                             <span>{translate.modal.task_level}</span>
-                                <div className={style.dots}>
-                                    {Array.from({ length: LEVEL_COUNT }, (_, i) => {
-                                        const dotLevel = LEVEL_COUNT - i;
-                                        return (
+                            <div className={style.dots}>
+                                {Array.from({ length: LEVEL_COUNT }, (_, i) => {
+                                    const dotLevel = LEVEL_COUNT - i;
+                                    return (
                                         <span
                                             key={i}
                                             className={dotLevel <= taskLevel ? style.dotInactive : style.dotActive}
-                                            onClick={() => setTaskLevel(dotLevel === taskLevel ? 0 : dotLevel)}
+                                            onClick={() => !readOnly && setTaskLevel(dotLevel === taskLevel ? 0 : dotLevel)}
                                             role="button"
                                             aria-label={`Level ${dotLevel}`}
                                         />
-                                        );
-                                    })}
-                                </div>
+                                    );
+                                })}
+                            </div>
                         </div>
 
                         <div className={style.modalContent}>
@@ -123,15 +128,14 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
                                     className={style.descriptionInput}
                                     placeholder={translate.modal.task_description}
                                     value={taskDescription}
-                                    onChange={e => setTaskDescription(e.target.value)}
+                                    onChange={e => !readOnly && setTaskDescription(e.target.value)}
+                                    readOnly={readOnly}
                                 />
-                                {
-                                    taskTags.length < 5 || (
-                                        <div className={style.error}>
-                                            <span>{translate.modal.tag_limit}</span>
-                                        </div>
-                                    )
-                                }
+                                {!readOnly && taskTags.length >= 5 && (
+                                    <div className={style.error}>
+                                        <span>{translate.modal.tag_limit}</span>
+                                    </div>
+                                )}
                             </div>
 
                             <div className={style.tagContainer}>
@@ -142,33 +146,39 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
                                     {taskTags.slice(0, 6).map((tag, i) => (
                                         <span key={i} className={style.tag}>
                                             {tag}
-                                            <button className={style.removeButton} onClick={() => handleRemoveTag(i)}>
-                                                <MdClose size={16} />
-                                            </button>
+                                            {!readOnly && (
+                                                <button className={style.removeButton} onClick={() => handleRemoveTag(i)}>
+                                                    <MdClose size={16} />
+                                                </button>
+                                            )}
                                         </span>
                                     ))}
                                 </div>
-                                <input
-                                    id='tags'
-                                    className={style.descriptionInput}
-                                    value={tagInput}
-                                    onChange={e => setTagInput(e.target.value)}
-                                    onKeyDown={handleAddTag}
-                                    placeholder={translate.modal.tag_placeholder}
-                                />
+                                {!readOnly && (
+                                    <input
+                                        id='tags'
+                                        className={style.descriptionInput}
+                                        value={tagInput}
+                                        onChange={e => setTagInput(e.target.value)}
+                                        onKeyDown={handleAddTag}
+                                        placeholder={translate.modal.tag_placeholder}
+                                    />
+                                )}
                             </div>
 
-                            {error && <p className={style.error}>{error}</p>}
+                            {error && !readOnly && <div className={style.error}><span>{error}</span></div>}
 
-                            <div className={style.submitContainer}>
-                                <button
-                                    className={style.submitButton}
-                                    onClick={handleSubmit}
-                                    disabled={isLoading}
-                                >
-                                    {isLoading ? 'Chargement...' : translate.modal.submit}
-                                </button>
-                            </div>
+                            {!readOnly && (
+                                <div className={style.submitContainer}>
+                                    <button
+                                        className={style.submitButton}
+                                        onClick={handleSubmit}
+                                        disabled={isLoading}
+                                    >
+                                        {isLoading ? 'Chargement...' : translate.modal.submit}
+                                    </button>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
