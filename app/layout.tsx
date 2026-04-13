@@ -65,7 +65,7 @@ export default async function RootLayout({
               </>
             }
             <ErrorComponent />
-            <Footer />
+            {/* <Footer /> */}
           </ErrorProvider>
         </AuthProvider>
       </body>

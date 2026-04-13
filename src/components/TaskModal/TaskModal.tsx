@@ -13,11 +13,12 @@ interface TaskModalProps {
     onClose?: () => void;
     onSubmit?: ((task: any) => void) | null;
     onDelete?: () => void;
+    onUpdate?: (data: any) => void;
     readOnly?: boolean;
     task?: TaskData | null;
 }
 
-export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit = null, onDelete, readOnly = false, task = null }: TaskModalProps) {
+export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit = null, onDelete, onUpdate, readOnly = false, task = null }: TaskModalProps) {
     const [taskLabel, setTaskLabel] = useState(task?.label ?? '');
     const [taskDescription, setTaskDescription] = useState(task?.description ?? '');
     const [taskLevel, setTaskLevel] = useState(task?.difficulty ?? 0);
@@ -25,6 +26,9 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
     const [tagInput, setTagInput] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
+    const [isEditing, setIsEditing] = useState(false);
+
+    const isReadOnly = readOnly && !isEditing;
 
     const handleClose = (e: any) => {
         e.preventDefault();
@@ -39,6 +43,7 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
         setTaskTags([]);
         setTagInput('');
         setError('');
+        setIsEditing(false);
     };
 
     const handleAddTag = (e: React.KeyboardEvent<HTMLInputElement>) => {
@@ -82,6 +87,29 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
         }
     };
 
+    const handleUpdate = async (e: React.MouseEvent) => {
+        e.preventDefault();
+        if (!taskLabel.trim()) {
+            setError('Le titre est requis');
+            return;
+        }
+        setIsLoading(true);
+        try {
+            await onUpdate?.({
+                label: taskLabel,
+                description: taskDescription,
+                tags: taskTags,
+                checked: task?.checked ?? false,
+                difficulty: taskLevel,
+            });
+            setIsEditing(false);
+        } catch (err) {
+            setError('Erreur lors de la modification');
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     if (!isOpen) return null;
 
     return (
@@ -95,8 +123,8 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
                                 type="text"
                                 placeholder={translate.modal.title}
                                 value={taskLabel}
-                                onChange={e => !readOnly && setTaskLabel(e.target.value)}
-                                readOnly={readOnly}
+                                onChange={e => !isReadOnly && setTaskLabel(e.target.value)}
+                                readOnly={isReadOnly}
                             />
                             <a onClick={handleClose}>X</a>
                         </div>
@@ -129,10 +157,10 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
                                     className={style.descriptionInput}
                                     placeholder={translate.modal.task_description}
                                     value={taskDescription}
-                                    onChange={e => !readOnly && setTaskDescription(e.target.value)}
-                                    readOnly={readOnly}
+                                    onChange={e => !isReadOnly && setTaskDescription(e.target.value)}
+                                    readOnly={isReadOnly}
                                 />
-                                {!readOnly && taskTags.length >= 5 && (
+                                {!isReadOnly && taskTags.length >= 5 && (
                                     <div className={style.error}>
                                         <span>{translate.modal.tag_limit}</span>
                                     </div>
@@ -147,7 +175,7 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
                                     {taskTags.slice(0, 6).map((tag, i) => (
                                         <span key={i} className={style.tag}>
                                             {tag}
-                                            {!readOnly && (
+                                            {!isReadOnly && (
                                                 <button className={style.removeButton} onClick={() => handleRemoveTag(i)}>
                                                     <MdClose size={16} />
                                                 </button>
@@ -155,7 +183,7 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
                                         </span>
                                     ))}
                                 </div>
-                                {!readOnly && (
+                                {!isReadOnly && (
                                     <input
                                         id='tags'
                                         className={style.descriptionInput}
@@ -167,13 +195,32 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
                                 )}
                             </div>
 
-                            {error && !readOnly && <div className={style.error}><span>{error}</span></div>}
+                            {error && !isReadOnly && <div className={style.error}><span>{error}</span></div>}
 
-                            {readOnly && onDelete && (
-                                <div className={style.submitContainer} style={{ background: 'var(--error-color)' }}>
-                                    <button className={style.submitButton} onClick={onDelete}>
-                                        Supprimer
-                                    </button>
+                            {readOnly && (
+                                <div className={style.readOnlyButtons}>
+                                    {isEditing ? (
+                                        <div className={style.submitContainer}>
+                                            <button className={style.submitButton} onClick={handleUpdate} disabled={isLoading}>
+                                                {isLoading ? 'Chargement...' : 'Sauvegarder'}
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        onUpdate && (
+                                            <div className={style.submitContainer}>
+                                                <button className={style.submitButton} onClick={() => setIsEditing(true)}>
+                                                    Modifier
+                                                </button>
+                                            </div>
+                                        )
+                                    )}
+                                    {onDelete && !isEditing && (
+                                        <div className={`${style.submitContainer} ${style.deleteButton}`}>
+                                            <button className={style.submitButton} onClick={onDelete}>
+                                                Supprimer
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             )}
 

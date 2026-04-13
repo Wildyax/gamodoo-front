@@ -37,20 +37,23 @@ export const getTasks = async (token: string) => {
     return response.json();
 };
 
-export const updateTask = async (token: string, taskId: number, taskData: TaskData) => {
+export const updateTask = async (taskId: number, data: {
+    label: string;
+    description: string;
+    tags: string[];
+    checked: boolean;
+    difficulty: number;
+}, token: string | null) => {
     const response = await fetch(`${apiUrl}/task/${taskId}`, {
         method: "PUT",
-        headers: { 
+        headers: {
             "Content-Type": "application/json",
             "Authorization": `Bearer ${token}`
         },
-        body: JSON.stringify(taskData),
+        body: JSON.stringify(data),
     });
 
-    if (!response.ok) {
-        throw new Error("Error updating tasks");
-    }
-
+    if (!response.ok) throw new Error("Erreur lors de la modification de la tâche");
     return response.json();
 };
 

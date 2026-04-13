@@ -11,8 +11,8 @@ import TaskModal from '@/src/components/TaskModal/TaskModal';
 import {useAuth} from "@/src/context/AuthContext";
 import {redirect} from "next/navigation";
 import { useEffect } from 'react';
-import { getTasks, checkTask, deleteTask } from "@/src/services/task.service";
 import { useError } from "@/src/context/ErrorContext";
+import { getTasks, checkTask, deleteTask, updateTask } from "@/src/services/task.service";
 
 export default function DashBoard() {
     const { token, refreshUser } = useAuth();
@@ -69,6 +69,17 @@ export default function DashBoard() {
             showError('success', null, 'Tâche supprimée avec succès');
         } catch (error) {
             showError('error', 500, 'Erreur lors de la suppression de la tâche');
+        }
+    };
+
+    const handleUpdateTask = async (data: any) => {
+        try {
+            await updateTask(selectedTask?.id ?? 0, data, token);
+            setSelectedTask(null);
+            fetchTasks(taskState);
+            showError('success', null, 'Tâche modifiée avec succès');
+        } catch (error) {
+            showError('error', 500, 'Erreur lors de la modification de la tâche');
         }
     };
 
@@ -151,7 +162,8 @@ export default function DashBoard() {
                     onSubmit={null}
                     readOnly={true}
                     task={selectedTask}
-                    onDelete={handleDeleteTask}
+                    onDelete={selectedTask.checked ? undefined : handleDeleteTask}
+                    onUpdate={selectedTask.checked ? undefined : handleUpdateTask}
                 />
             )}
         </>
