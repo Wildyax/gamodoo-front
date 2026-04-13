@@ -1,14 +1,16 @@
 'use client';
-
+import React from 'react';
 import { useAuth } from "@/src/context/AuthContext";
 import Link from "next/dist/client/link";
 import translate from "./../../src/locales/fr.json";
 import styles from "./style.module.css";
 import { useState } from "react";
 import { updateUser } from "@/src/services/user.service";
+import { useError } from "@/src/context/ErrorContext";
 
 export default function ProfilPage() {
     const { user, logout, token, refreshUser } = useAuth();
+    const { showError } = useError();
 
     const [userPseudo, setUserPseudo] = useState(user?.login ?? '');
     const [userEmail, setUserEmail] = useState(user?.email ?? '');
@@ -26,10 +28,11 @@ export default function ProfilPage() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            await await updateUser({ login: userPseudo, email: userEmail, password: userPassword, job: userJob }, token);
+            await updateUser({ login: userPseudo, email: userEmail, password: userPassword, job: userJob }, token);
             if (token) await refreshUser(token);
+            showError('success', null, 'Profil mis à jour avec succès');
         } catch (error) {
-            console.error("Failed to update user:", error);
+            showError('error', 500, 'Erreur lors de la mise à jour du profil');
         }
     };
 

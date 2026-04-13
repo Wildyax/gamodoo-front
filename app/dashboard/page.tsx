@@ -12,6 +12,7 @@ import {useAuth} from "@/src/context/AuthContext";
 import {redirect} from "next/navigation";
 import { useEffect } from 'react';
 import { getTasks, checkTask, deleteTask } from "@/src/services/task.service";
+import { useError } from "@/src/context/ErrorContext";
 
 export default function DashBoard() {
     const { token, refreshUser } = useAuth();
@@ -22,6 +23,7 @@ export default function DashBoard() {
     const [todoCount, setTodoCount] = useState(0);
     const [doneCount, setDoneCount] = useState(0);
     const [selectedTask, setSelectedTask] = useState<TaskData | null>(null);
+    const { showError } = useError();
 
     if(!token) redirect('/account/connexion');
 
@@ -57,6 +59,17 @@ export default function DashBoard() {
                 setDoneCount(tasks.filter((t: TaskData) => t.checked).length);
             })
             .catch(err => console.error(err));
+    };
+
+    const handleDeleteTask = async () => {
+        try {
+            await deleteTask(selectedTask?.id ?? 0, token);
+            setSelectedTask(null);
+            fetchTasks(taskState);
+            showError('success', null, 'Tâche supprimée avec succès');
+        } catch (error) {
+            showError('error', 500, 'Erreur lors de la suppression de la tâche');
+        }
     };
 
     useEffect(() => {
@@ -138,11 +151,7 @@ export default function DashBoard() {
                     onSubmit={null}
                     readOnly={true}
                     task={selectedTask}
-                    onDelete={async () => {
-                        await deleteTask(selectedTask.id ?? 0, token);
-                        setSelectedTask(null);
-                        fetchTasks(taskState);
-                    }}
+                    onDelete={handleDeleteTask}
                 />
             )}
         </>
