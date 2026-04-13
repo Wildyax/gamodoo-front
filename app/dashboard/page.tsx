@@ -11,7 +11,8 @@ import TaskModal from '@/src/components/TaskModal/TaskModal';
 import {useAuth} from "@/src/context/AuthContext";
 import {redirect} from "next/navigation";
 import { useEffect } from 'react';
-import { getTasks, checkTask } from "@/src/services/task.service";
+import { useError } from "@/src/context/ErrorContext";
+import { getTasks, checkTask, deleteTask, updateTask } from "@/src/services/task.service";
 
 export default function DashBoard() {
     const { token, refreshUser } = useAuth();
@@ -21,7 +22,9 @@ export default function DashBoard() {
     const [allTasks, setAllTasks] = useState<TaskData[]>([]);
     const [todoCount, setTodoCount] = useState(0);
     const [doneCount, setDoneCount] = useState(0);
-    
+    const [selectedTask, setSelectedTask] = useState<TaskData | null>(null);
+    const { showError } = useError();
+
     if(!token) redirect('/account/connexion');
 
     const handleCheckedTask = (taskId: number) => {
@@ -58,80 +61,109 @@ export default function DashBoard() {
             .catch(err => console.error(err));
     };
 
+    const handleDeleteTask = async () => {
+        try {
+            await deleteTask(selectedTask?.id ?? 0, token);
+            setSelectedTask(null);
+            fetchTasks(taskState);
+            showError('success', null, 'Tâche supprimée avec succès');
+        } catch (error) {
+            showError('error', 500, 'Erreur lors de la suppression de la tâche');
+        }
+    };
+
+    const handleUpdateTask = async (data: any) => {
+        try {
+            await updateTask(selectedTask?.id ?? 0, data, token);
+            setSelectedTask(null);
+            fetchTasks(taskState);
+            showError('success', null, 'Tâche modifiée avec succès');
+        } catch (error) {
+            showError('error', 500, 'Erreur lors de la modification de la tâche');
+        }
+    };
+
     useEffect(() => {
         fetchTasks(taskState);
     }, [token]);
 
     return (
         <>
-        <div className="flex flex-col lg:flex-row h-full gap-0">
- 
-            <div className="flex flex-col flex-1 min-w-0">
-                <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 gap-2">
-    
-                    <div className="flex justify-center sm:hidden">
-                        <img
-                            src="logo/full_logo.png"
-                            alt="Logo"
-                            className="w-24 h-auto"
-                        />
-                    </div>
-            
-                    <div className="flex flex-row justify-between items-center gap-2 sm:contents">
-                        <ToggleButton onToggle={handleToggle} />
-                
-                        <img
-                            src="logo/full_logo.png"
-                            alt="Logo"
-                            className="hidden sm:block w-20 lg:w-28 h-auto"
-                        />
-                
-                        <button className={`${style.button} items-center justify-center inline-flex rounded-full shadow-lg
-                            px-4 py-2 text-sm
-                            lg:px-6 lg:py-2
-                            font-medium whitespace-nowrap`}
-                            onClick={() => setIsModalOpen(true)}>
-                            {translate.navbar_dashboard.add}
-                        </button>
-                    </div>
-                </div>
-    
- 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-3 content-start">
-                    {tasks.length > 0 ? (
-                        tasks.map((task, index) => (
-                            <TaskContainer key={task.id ?? index} task={task} onChange={handleCheckedTask} />
-                        ))
-                    ) : (
-                        <div className={style.emptyState}>
-                            <p className={style.emptyLine}>
-                                <span className={style.emptyTag}>[QUÊTE]</span>
-                                <span className={style.emptyDots}> .............. </span>
-                                <span className={style.emptyStatus}>AUCUNE TÂCHE</span>
-                            </p>
-                            <p className={style.emptyLine}>
-                                <span className={style.emptyTag}>[HÉROS]</span>
-                                <span className={style.emptyDots}> .............. </span>
-                                <span className={style.emptyStatus}>EN ATTENTE</span>
-                            </p>
+            <div className="flex flex-col lg:flex-row h-full gap-0">
+
+                <div className="flex flex-col flex-1 min-w-0">
+                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center p-2 gap-2">
+
+                        <div className="flex justify-center sm:hidden">
+                            <img src="logo/full_logo.png" alt="Logo" className="w-24 h-auto" />
                         </div>
-                    )}
+
+                        <div className="flex flex-row justify-between items-center gap-2 sm:contents">
+                            <ToggleButton onToggle={handleToggle} />
+
+                            <img src="logo/full_logo.png" alt="Logo" className="hidden sm:block w-20 lg:w-28 h-auto" />
+
+                            <button
+                                className={`${style.button} items-center justify-center inline-flex rounded-full shadow-lg px-4 py-2 text-sm lg:px-6 lg:py-2 font-medium whitespace-nowrap`}
+                                onClick={() => setIsModalOpen(true)}
+                            >
+                                {translate.navbar_dashboard.add}
+                            </button>
+                        </div>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 p-3 content-start">
+                        {tasks.length > 0 ? (
+                            tasks.map((task, index) => (
+                                <TaskContainer
+                                    key={task.id ?? index}
+                                    task={task}
+                                    onChange={handleCheckedTask}
+                                    onView={(task) => setSelectedTask(task)}
+                                />
+                            ))
+                        ) : (
+                            <div className={style.emptyState}>
+                                <p className={style.emptyLine}>
+                                    <span className={style.emptyTag}>[QUÊTE]</span>
+                                    <span className={style.emptyDots}> .............. </span>
+                                    <span className={style.emptyStatus}>AUCUNE TÂCHE</span>
+                                </p>
+                                <p className={style.emptyLine}>
+                                    <span className={style.emptyTag}>[HÉROS]</span>
+                                    <span className={style.emptyDots}> .............. </span>
+                                    <span className={style.emptyStatus}>EN ATTENTE</span>
+                                </p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <div className="w-full lg:w-auto lg:flex-shrink lg:max-w-xs xl:max-w-sm">
+                    <UserStatistics todoCount={todoCount} doneCount={doneCount} />
                 </div>
             </div>
-            
-            <div className="w-full lg:w-auto lg:flex-shrink lg:max-w-xs xl:max-w-sm">
-                <UserStatistics todoCount={todoCount} doneCount={doneCount} />
-            </div>
- 
-        </div>
+
             {isModalOpen && (
-                <TaskModal 
-                    isOpen={isModalOpen} 
+                <TaskModal
+                    isOpen={isModalOpen}
                     onClose={() => setIsModalOpen(false)}
                     onSubmit={() => {
                         fetchTasks();
                         setIsModalOpen(false);
                     }}
+                />
+            )}
+
+            {selectedTask && (
+                <TaskModal
+                    isOpen={!!selectedTask}
+                    onClose={() => setSelectedTask(null)}
+                    onSubmit={null}
+                    readOnly={true}
+                    task={selectedTask}
+                    onDelete={selectedTask.checked ? undefined : handleDeleteTask}
+                    onUpdate={selectedTask.checked ? undefined : handleUpdateTask}
                 />
             )}
         </>

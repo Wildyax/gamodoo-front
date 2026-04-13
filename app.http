@@ -1,0 +1,21 @@
+### Send POST request with json body
+POST http://localhost:8080/api/register
+Content-Type: application/json
+
+{
+  "email": "email@email.fr",
+  "login": "Hamid",
+  "password": "password",
+  "job": 5
+}
+###
+POST http://localhost:8080/api/login_check
+Content-Type: application/json
+
+{
+  "username": "email@email.fr",
+  "password": "password"
+}
+
+###
+GET http://localhost:8080/api/jobs
