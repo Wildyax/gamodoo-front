@@ -1,15 +1,8 @@
 'use client';
 import translate from "../src/locales/fr.json";
-import {useRouter} from "next/navigation";
 import Link from 'next/link';
 
 export default function Home() {
-    const router = useRouter();
-
-    const goToDashboard = () => {
-        router.push('/dashboard');
-    };
-
     return (
         <div className="flex flex-col items-center justify-center w-full">
             <div className="flex flex-col md:flex-row gap-4 m-4 items-center justify-center w-full">

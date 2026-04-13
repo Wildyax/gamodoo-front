@@ -69,5 +69,13 @@
   }, 
   "task_card": {
     "no_task": "Pas de tâches... Créé en une pour commencer l'aventure !"
+  }, 
+  "user_profil": {
+    "title": "Mon profil",
+    "level": "Niveau",
+    "xp": "Expérience",
+    "description": "Description",
+    "job": "Classe",
+    "update": "Mettre à jour mon profil"
   }
 }

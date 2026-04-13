@@ -3,63 +3,57 @@
 import { useAuth } from "@/src/context/AuthContext";
 import Link from "next/dist/client/link";
 import translate from "./../../src/locales/fr.json";
-import UnderConstruction from "@/src/components/UnderConstruction/UnderConstruction";
-import styles from "@/src/components/Profil/Profil.module.css";
-import {useState} from "react";
-
+import styles from "./style.module.css";
+import { useState } from "react";
+import { updateUser } from "@/src/services/user.service";
 
 export default function ProfilPage() {
-    const { user, logout } = useAuth();
+    const { user, logout, token, refreshUser } = useAuth();
 
-    const [userPseudo, setUserPseudo] = useState(user?.login)
-    const [userEmail, setUserEmail] = useState(user?.email)
-    const [userPassword, setUserPassword] = useState('')
-    const [userJob, setUserJob] = useState(user?.job.id)
-
-    const apiUrl = process.env.NEXT_PUBLIC_API_URL;
+    const [userPseudo, setUserPseudo] = useState(user?.login ?? '');
+    const [userEmail, setUserEmail] = useState(user?.email ?? '');
+    const [userPassword, setUserPassword] = useState('');
+    const [userJob, setUserJob] = useState(user?.job?.id ?? 0);
 
     const jobImages = {
         "Assassin": "assassin.gif",
         "Magicien": "wizard.gif",
         "Archer": "archer.gif",
         "Épéiste": "sword.gif"
-    }
+    };
     const imageName = jobImages[user?.job.name as keyof typeof jobImages] || "default.gif";
 
-    async function updateUser(data: {
-        login: string | undefined;
-        email: string | undefined;
-        password: string;
-        job: number | undefined
-    }) {
-        const token = localStorage.getItem('token');
-
-        const response = await fetch(`${apiUrl}/user`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-            body: JSON.stringify(data),
-        });
-    }
-
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        try {
+            await await updateUser({ login: userPseudo, email: userEmail, password: userPassword, job: userJob }, token);
+            if (token) await refreshUser(token);
+        } catch (error) {
+            console.error("Failed to update user:", error);
+        }
+    };
 
-        updateUser({
-            "login": userPseudo,
-            "email": userEmail,
-            "password": userPassword,
-            "job": userJob
-        })
-    }
+    if (!user) return null;
 
     return (
-        <>
-            <h1>
-                Mon profil
+        <div className={styles.pageWrapper}>
+
+            <h1 className={styles.title}>
+                {translate.user_profil.title}
             </h1>
+
+            <div className={styles.terminal}>
+                <div className={styles.terminalDots}>
+                    <span></span><span></span><span></span>
+                </div>
+                <div className={styles.terminalLine}>
+                    <span className={styles.terminalKey}>[SYS]</span>
+                    <span className={styles.terminalValue}>MODIFICATIONS DISPONIBLES</span>
+                    <span className={styles.terminalArrow}> &gt; </span>
+                    <span className={styles.terminalHighlight}>login</span>,{" "}
+                    <span className={styles.terminalHighlight}>email</span>
+                </div>
+            </div>
 
             <form className={styles.form} onSubmit={handleSubmit}>
 
@@ -85,7 +79,7 @@ export default function ProfilPage() {
 
                 <div className="grid grid-cols-2 gap-6">
                     <div>
-                        <label>Niveau</label>
+                        <label>{translate.user_profil.level}</label>
                         <input
                             type="text"
                             disabled
@@ -93,9 +87,8 @@ export default function ProfilPage() {
                             value={user?.level}
                         />
                     </div>
-
                     <div>
-                        <label>Expérience</label><br/>
+                        <label>{translate.user_profil.xp}</label>
                         <input
                             type="text"
                             disabled
@@ -105,18 +98,8 @@ export default function ProfilPage() {
                     </div>
                 </div>
 
-                {user?.id}
-
-                <label>Classe</label>
-                <div
-                    className="
-                        border-3
-                        border-[#682d1b]
-                        rounded-lg
-                        pb-5
-                    "
-                >
-
+                <label>{translate.user_profil.job}</label>
+                <div className="border-3 border-[#682d1b] rounded-lg pb-5 flex justify-center">
                     <img
                         src={`characters/${imageName}`}
                         alt={user?.job?.name}
@@ -126,49 +109,23 @@ export default function ProfilPage() {
 
                 <div className="grid grid-cols-2 gap-6">
                     <button
-                        className="
-                        px-3 py-1.5
-                        text-sm font-medium
-                        rounded-md
-                        shadow-md
-                        cursor-pointer
-                        text-white
-                        flex items-center justify-center
-                        whitespace-nowrap
-                        transition-all duration-150
-                        hover:shadow-lg
-                        hover:brightness-110
-                        active:scale-95
-                      "
+                        className="px-3 py-1.5 text-sm font-medium rounded-md shadow-md cursor-pointer text-white flex items-center justify-center whitespace-nowrap transition-all duration-150 hover:shadow-lg hover:brightness-110 active:scale-95"
                         style={{ background: `var(--gradient-red)` }}
                         type="submit"
                     >
-                        ENREGISTRER
+                        {translate.user_profil.update}
                     </button>
 
                     <Link
                         href="/"
                         onClick={logout}
-                        className="
-                        px-3 py-1.5
-                        text-sm font-medium
-                        rounded-md
-                        shadow-md
-                        text-white
-                        flex items-center justify-center
-                        whitespace-nowrap
-                        transition-all duration-150
-                        hover:shadow-lg
-                        hover:brightness-110
-                        active:scale-95
-                      "
+                        className="px-3 py-1.5 text-sm font-medium rounded-md shadow-md text-white flex items-center justify-center whitespace-nowrap transition-all duration-150 hover:shadow-lg hover:brightness-110 active:scale-95"
                         style={{ background: `var(--gradient-brown)` }}
-                        type="submit"
                     >
                         {translate.navbar.logout}
                     </Link>
                 </div>
             </form>
-        </>
+        </div>
     );
 }
