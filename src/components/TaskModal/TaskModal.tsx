@@ -12,11 +12,12 @@ interface TaskModalProps {
     isOpen?: boolean;
     onClose?: () => void;
     onSubmit?: ((task: any) => void) | null;
+    onDelete?: () => void;
     readOnly?: boolean;
     task?: TaskData | null;
 }
 
-export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit = null, readOnly = false, task = null }: TaskModalProps) {
+export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit = null, onDelete, readOnly = false, task = null }: TaskModalProps) {
     const [taskLabel, setTaskLabel] = useState(task?.label ?? '');
     const [taskDescription, setTaskDescription] = useState(task?.description ?? '');
     const [taskLevel, setTaskLevel] = useState(task?.difficulty ?? 0);
@@ -167,6 +168,14 @@ export default function TaskModal({ isOpen = false, onClose = () => {}, onSubmit
                             </div>
 
                             {error && !readOnly && <div className={style.error}><span>{error}</span></div>}
+
+                            {readOnly && onDelete && (
+                                <div className={style.submitContainer} style={{ background: 'var(--error-color)' }}>
+                                    <button className={style.submitButton} onClick={onDelete}>
+                                        Supprimer
+                                    </button>
+                                </div>
+                            )}
 
                             {!readOnly && (
                                 <div className={style.submitContainer}>

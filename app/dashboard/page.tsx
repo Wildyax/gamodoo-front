@@ -11,7 +11,7 @@ import TaskModal from '@/src/components/TaskModal/TaskModal';
 import {useAuth} from "@/src/context/AuthContext";
 import {redirect} from "next/navigation";
 import { useEffect } from 'react';
-import { getTasks, checkTask } from "@/src/services/task.service";
+import { getTasks, checkTask, deleteTask } from "@/src/services/task.service";
 
 export default function DashBoard() {
     const { token, refreshUser } = useAuth();
@@ -138,6 +138,11 @@ export default function DashBoard() {
                     onSubmit={null}
                     readOnly={true}
                     task={selectedTask}
+                    onDelete={async () => {
+                        await deleteTask(selectedTask.id ?? 0, token);
+                        setSelectedTask(null);
+                        fetchTasks(taskState);
+                    }}
                 />
             )}
         </>

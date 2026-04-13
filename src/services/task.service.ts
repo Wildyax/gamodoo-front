@@ -69,3 +69,16 @@ export const checkTask = async (token: string, taskId: number) => {
 
     return response.json();
 };
+
+export const deleteTask = async (taskId: number, token: string | null) => {
+    const response = await fetch(`${apiUrl}/task/${taskId}`, {
+        method: "DELETE",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+    });
+
+    if (!response.ok) throw new Error("Erreur lors de la suppression de la tâche");
+    return response.json();
+};
